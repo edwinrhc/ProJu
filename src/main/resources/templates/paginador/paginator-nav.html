@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<nav th:fragment="paginator">
+    <div th:if="${page != null}">
+        <ul class="flex justify-center space-x-1">
+            <!-- Link para la primera página -->
+            <li th:class="${page.first ? 'opacity-50 cursor-not-allowed' : ''}">
+                <a class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                   th:if="${not page.first}" th:href="@{${page.url}(page=0, nombre=${nombreBusqueda})}">Primera</a>
+                <span class="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+                      th:if="${page.first}">Primera</span>
+            </li>
+
+            <!-- Link para la página anterior -->
+            <li th:class="${not page.hasPrevious ? 'opacity-50 cursor-not-allowed' : ''}">
+                <a class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                   th:if="${page.hasPrevious}" th:href="@{${page.url}(page=${page.paginaActual - 2}, nombre=${nombreBusqueda})}">&laquo;</a>
+                <span class="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+                      th:if="${not page.hasPrevious}">&laquo;</span>
+            </li>
+
+            <!-- Números de página -->
+            <li th:each="item : ${page.paginas}" th:class="${item.actual ? 'bg-blue-500 text-white' : ''}">
+                <a class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                   th:if="${not item.actual}" th:href="@{${page.url}(page=${item.numero - 1}, nombre=${nombreBusqueda})}" th:text="${item.numero}"></a>
+                <span class="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+                      th:if="${item.actual}" th:text="${item.numero}"></span>
+            </li>
+
+            <!-- Link para la siguiente página -->
+            <li th:class="${not page.hasNext ? 'opacity-50 cursor-not-allowed' : ''}">
+                <a class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                   th:if="${page.hasNext}" th:href="@{${page.url}(page=${page.paginaActual}, nombre=${nombreBusqueda})}">&raquo;</a>
+                <span class="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+                      th:if="${not page.hasNext}">&raquo;</span>
+            </li>
+
+            <!-- Link para la última página -->
+            <li th:class="${page.last ? 'opacity-50 cursor-not-allowed' : ''}">
+                <a class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                   th:if="${not page.last}" th:href="@{${page.url}(page=${page.totalPaginas - 1}, nombre=${nombreBusqueda})}">&Uacute;ltima</a>
+                <span class="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+                      th:if="${page.last}">&Uacute;ltima</span>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+</body>
+</html>

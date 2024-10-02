@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: head"></head>
+
+<nav th:replace="fragments/navbar :: navbar"></nav>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+<div class="flex-grow container mx-auto p-6">
+
+    <!-- Botón para crear solicitud alineado a la derecha -->
+    <div class="flex justify-end mb-6">
+        <a th:href="@{/etapaProcesal/get}"
+           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
+            Registro Nuevo
+        </a>
+    </div>
+
+    <div class="container w-3/4 p-6">
+
+        <h1 class="text-2xl font-bold mb-4" th:text="${titulo}"></h1>
+
+        <div th:if="${mensaje}">
+            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+                <strong th:text="${mensaje}"></strong>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3"
+                      onclick="this.parentElement.style.display='none';">
+            <svg class="fill-current h-6 w-6 text-yellow-700" role="button" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 20 20">
+                <title>Close</title>
+                <path d="M14.348 5.652a1 1 0 10-1.414-1.414L10 7.172 7.066 4.238a1 1 0 10-1.414 1.414L8.586 8.586l-2.938 2.938a1 1 0 001.414 1.414L10 9.828l2.938 2.938a1 1 0 001.414-1.414L11.414 8.586l2.934-2.934z"/>
+            </svg>
+        </span>
+            </div>
+        </div>
+
+
+        <div th:unless="${mensaje}">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+            <th class="py-2 px-4 border-b">Nombre</th>
+            <th class="py-2 px-4 border-b">Estado</th>
+            <th class="py-2 px-4 border-b">Editar</th>
+
+            </thead>
+            <tbody>
+            <!-- Fila de ejemplo, agrega más filas según sea necesario -->
+            <tr th:each="procesal, procesalIndex: ${etapaProcesal}" class="hover:bg-gray-100">
+                <td class="py-2 px-4 border-b" th:text="${procesal.nombre}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesal.estado}"></td>
+                <td class="py-2 px-4 border-b">acciones</td>
+            </tr>
+            <!-- Agrega más filas aquí -->
+            </tbody>
+        </table>
+
+        </div>
+        <nav th:replace="paginador/paginator-nav :: paginator"></nav>
+
+        <p class="flex justify-end font-bold mt-4" th:text="'Total: ' + ${total}"></p>
+    </div>
+
+
+</div>
+</body>
+<footer th:replace="fragments/footer :: footer" class="bg-gray-800 text-white py-4"></footer>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: head"></head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+<nav th:replace="fragments/navbar :: navbar"></nav>
+
+<!-- Contenedor principal -->
+<div class="flex-grow container mx-auto p-6">
+
+
+    <!-- Mostrar nombre del usuario -->
+    <h1 class="text-3xl font-bold mb-6">Bienvenido, <span sec:authentication="name"></span></h1>
+
+
+
+    <div class="grid grid-cols-1 gap-4 w-full md:w-1/2 ">
+        <!-- Primer card (MVCS.DDO) -->
+        <div class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
+            <h4 class="text-xl font-bold mb-0">1. MVCS.DDO</h4> <!-- Elimina el margen inferior -->
+            <button onclick="toggleSection('mvcs-ddo')"
+                    class="inline-block bg-gray-700 text-white text-sm px-2 py-1 rounded hover:bg-gray-500 transition">
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+        <div id="mvcs-ddo" class="hidden pl-4 mt-2">
+            <h4 class="text-sm font-bold mb-4">REPORTE DETALLADO DE PROCESOS JUDICIALES DERIVADOS POR LA PP
+                MVCS - A DICIEMBRE 2023</h4>
+
+            <div class="flex space-x-1"> <!-- Contenedor flexible para los botones -->
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    Procesos Laborales
+                </button>
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    Procesos Contenciosos Administrativos
+                </button>
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    Procesos Civiles
+                </button>
+            </div>
+
+            <div class="border-t mt-4 border-gray-500 mb-4"></div>
+        </div>
+
+
+
+        <!-- Segundo card (MEF.DDO) -->
+        <div class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
+            <h2 class="text-xl font-bold mb-0">2. MEF.DDO</h2> <!-- Elimina el margen inferior -->
+            <button onclick="toggleSection('mef-ddo')"
+                    class="inline-block bg-gray-700 text-white text-sm px-2 py-1 rounded hover:bg-gray-500 transition">
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+        <div id="mef-ddo" class="hidden pl-4 mt-2">
+            <h4 class="text-sm font-bold mb-4">REPORTE DETALLADO DE PROCESOS JUDICIALES CON INTERVENCIÓN DE LA PROCURADURÍA PÚBLICA DEL MEF COMO DEMANDADO A DICIEMBRE 2023</h4>
+
+            <div class="flex space-x-1"> <!-- Contenedor flexible para los botones -->
+                <a th:href="@{/mefddo/mefDdoView}" class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    Demandado
+                </a>
+            </div>
+            <div class="border-t mt-4 border-gray-500 mb-4"></div>
+        </div>
+
+        <!-- tercer card (MEF. DDO-ST) -->
+        <div class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
+            <h2 class="text-xl font-bold mb-0">3. MEF. DDO-ST</h2> <!-- Elimina el margen inferior -->
+            <button onclick="toggleSection('mef-ddo-st')"
+                    class="inline-block bg-gray-700 text-white text-sm px-2 py-1 rounded hover:bg-gray-500 transition">
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+        <div id="mef-ddo-st" class="hidden pl-4 mt-2">
+            <h4 class="text-sm font-bold mb-4">REPORTE DETALLADO DE PROCESOS JUDICIALES CON INTERVENCIÓN DE LA
+                PROCURADURÍA PÚBLICA DEL MEF / SECRETARIA TÉCNICA COMO DEMANDADO DICIEMBRE 2023</h4>
+
+            <div class="flex space-x-1"> <!-- Contenedor flexible para los botones -->
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    Ver
+                </button>
+            </div>
+            <div class="border-t mt-4 border-gray-500 mb-4"></div>
+        </div>
+
+        <!-- cuarto card (MEF-DDO-IMPROCEDENCIA) -->
+        <div class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
+            <h2 class="text-xl font-bold mb-0">4. IMPROCEDENCIA LIMINAR</h2> <!-- Elimina el margen inferior -->
+            <button onclick="toggleSection('mef-ddo-improcedencia')"
+                    class="inline-block bg-gray-700 text-white text-sm px-2 py-1 rounded hover:bg-gray-500 transition">
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+        <div id="mef-ddo-improcedencia" class="hidden pl-4 mt-2">
+            <h4 class="text-sm font-bold mb-4">IMPROCEDENCIA LIMINAR</h4>
+            <div class="flex space-x-1"> <!-- Contenedor flexible para los botones -->
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    Ver
+                </button>
+            </div>
+            <div class="border-t mt-4 border-gray-500 mb-4"></div>
+        </div>
+
+
+        <!-- quinto card (MEF-DDO-IMPROCEDENCIA) -->
+        <div class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
+            <h2 class="text-xl font-bold mb-0">5. MVCS.DTE</h2> <!-- Elimina el margen inferior -->
+            <button onclick="toggleSection('mvcs-dte')"
+                    class="inline-block bg-gray-700 text-white text-sm px-2 py-1 rounded hover:bg-gray-500 transition">
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+        <div id="mvcs-dte" class="hidden pl-4 mt-2">
+            <h4 class="text-sm font-bold mb-4">REPORTE DETALLADO DE PROCESOS JUDICIALES DERIVADOS POR LA PP MVCS - A
+                DICIEMBRE 2023</h4>
+            <div class="flex space-x-1"> <!-- Contenedor flexible para los botones -->
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    CIVILES
+                </button>
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    PENALES
+                </button>
+            </div>
+            <div class="border-t mt-4 border-gray-500 mb-4"></div>
+        </div>
+
+
+        <!-- sexto card (MEF-DDO-IMPROCEDENCIA) -->
+        <div class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
+            <h2 class="text-xl font-bold mb-0">6. MEF.DTE</h2> <!-- Elimina el margen inferior -->
+            <button onclick="toggleSection('mef-dte')"
+                    class="inline-block bg-gray-700 text-white text-sm px-2 py-1 rounded hover:bg-gray-500 transition">
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+        <div id="mef-dte" class="hidden pl-4 mt-2">
+            <h4 class="text-sm font-bold mb-4">REPORTE DETALLADO DE PROCESOS JUDICIALES CON INTERVENCIÓN DE LA PROCURADURIA PUBLICA DEL MEF COMO DEMANDANTE A DICIEMBRE 2023</h4>
+            <div class="flex space-x-1"> <!-- Contenedor flexible para los botones -->
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    DEMANDANTE
+                </button>
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    PROCESOS ARBITRALES
+                </button>
+                <button class="inline-block bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-500 transition">
+                    PROCESOS CONSTITUCIONALES
+                </button>
+            </div>
+            <div class="border-t mt-4 border-gray-500 mb-4"></div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<footer th:replace="fragments/footer :: footer" class="bg-gray-800 text-white py-4"></footer>
+
+<script th:src="@{/js/home/home.js}"></script>
+
+</body>
+</html>
