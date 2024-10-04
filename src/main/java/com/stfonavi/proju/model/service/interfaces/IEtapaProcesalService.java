@@ -8,4 +8,6 @@ public interface IEtapaProcesalService {
 
 
     Page<EtapaProcesal> findAll(Pageable pageable);
+
+    void save(EtapaProcesal etapaProcesal);
 }

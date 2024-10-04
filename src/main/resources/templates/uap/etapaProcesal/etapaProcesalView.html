@@ -39,24 +39,33 @@
             <thead>
             <th class="py-2 px-4 border-b">Nombre</th>
             <th class="py-2 px-4 border-b">Estado</th>
-            <th class="py-2 px-4 border-b">Editar</th>
+            <th class="py-2 px-4 border-b"></th>
 
             </thead>
             <tbody>
             <!-- Fila de ejemplo, agrega más filas según sea necesario -->
             <tr th:each="procesal, procesalIndex: ${etapaProcesal}" class="hover:bg-gray-100">
-                <td class="py-2 px-4 border-b" th:text="${procesal.nombre}"></td>
-                <td class="py-2 px-4 border-b" th:text="${procesal.estado}"></td>
-                <td class="py-2 px-4 border-b">acciones</td>
+                <td class="py-2 px-4 border-b  text-center" th:text="${procesal.nombre}"></td>
+                <td class="py-2 px-4 border-b  text-center" th:text="${procesal.estado ? 'Activo' : 'Inactivo'}"></td>
+
+                <td class="py-2 px-4 border-b text-center">
+<!--                    th:href="@{'/etapaProcesal/editar/' + ${procesal.id}}"-->
+                    <a href="#"
+                       class="text-sm bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                        Editar
+                    </a>
+                </td>
+
             </tr>
             <!-- Agrega más filas aquí -->
             </tbody>
         </table>
 
         </div>
-        <nav th:replace="paginador/paginator-nav :: paginator"></nav>
+
 
         <p class="flex justify-end font-bold mt-4" th:text="'Total: ' + ${total}"></p>
+        <nav th:replace="paginador/paginator-nav :: paginator"></nav>
     </div>
 
 
