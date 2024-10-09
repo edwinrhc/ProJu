@@ -12,12 +12,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@SessionAttributes("etapaProcesal")
 @RequestMapping("/etapaProcesal")
 public class EtapaProcesalController {
 
@@ -35,7 +38,7 @@ public class EtapaProcesalController {
         model.addAttribute("titulo","Listado de etapas procesales");
         model.addAttribute("dateFormat", Constantes.getSimpleDateFormat());
         model.addAttribute("total",total);
-        model.addAttribute("etapaProcesal",etapaProcesal);
+        model.addAttribute("etapaProcesalList",etapaProcesal);
         model.addAttribute("page",pageRender);
 
         if(etapaProcesal.isEmpty()){
@@ -47,7 +50,8 @@ public class EtapaProcesalController {
 
     @GetMapping(value = "/get")
     public String mostrarFormEtapa(Map<String, Object> model) {
-
+        EtapaProcesal etapaProcesal = new EtapaProcesal();
+        model.put("etapaProcesal", etapaProcesal);
         model.put("boton", "Registro nuevo");
 
         return "uap/etapaProcesal/formEtapaProcesal";
@@ -55,7 +59,7 @@ public class EtapaProcesalController {
 
     @PostMapping("/crear")
     public String guardar(@Valid @ModelAttribute("etapaProcesal") EtapaProcesal etapaProcesal,
-                          BindingResult result, Model model) {
+                          BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
 
         // Si hay errores de validación, regresa al formulario
         if (result.hasErrors()) {
@@ -65,8 +69,37 @@ public class EtapaProcesalController {
 
         etapaProcesalService.save(etapaProcesal);
 
+        String mensajeFlash = (etapaProcesal.getId()  != 0) ? "Edita correctamente": "Creado correctamente";
+        status.setComplete();
+        flash.addFlashAttribute("success",mensajeFlash);
+
         return "redirect:/etapaProcesal/etapaProcesalView";
     }
 
+
+    @GetMapping("/get/{id}")
+    public String editar(@PathVariable(value="id")Long id, Map<String,Object>model, RedirectAttributes flash){
+
+        EtapaProcesal etapaProcesal = null;
+        String boton;
+        if (id != null && id > 0) {  // Aquí cambiamos '||' por '&&' para verificar que el ID sea válido
+            etapaProcesal = etapaProcesalService.findOne(id);
+            if (etapaProcesal == null) {
+                flash.addFlashAttribute("error", "Etapa procesal no existe.");
+                return "redirect:/etapaProcesal/etapaProcesalView";  // Redirigir a la lista en lugar de mostrar la vista
+            }
+            boton = "Editar Registro";
+        } else {
+            flash.addFlashAttribute("error", "ID no válido.");
+            return "redirect:/etapaProcesal/etapaProcesalView";  // Redirigir si el ID es inválido
+        }
+
+
+        model.put("etapaProcesal",etapaProcesal);
+        model.put("titulo","Editar");
+        model.put("boton",boton);
+
+        return "uap/etapaProcesal/formEtapaProcesal";
+    }
 
 }

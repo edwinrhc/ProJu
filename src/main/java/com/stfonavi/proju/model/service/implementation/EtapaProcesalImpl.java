@@ -24,4 +24,10 @@ public class EtapaProcesalImpl implements IEtapaProcesalService {
     public void save(EtapaProcesal etapaProcesal) {
         etapaProcesalDao.save(etapaProcesal);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EtapaProcesal findOne(Long id) {
+        return etapaProcesalDao.findById(id).orElse(null);
+    }
 }
