@@ -13,7 +13,9 @@
         <!-- Campo de Nombre -->
         <div class="flex flex-col">
             <label for="nombre" class="text-gray-700 font-semibold">Nombre</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre"  th:classappend="${#fields.hasErrors('nombre')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
+            <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre"
+                   th:classappend="${#fields.hasErrors('nombre')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
+                   th:field="*{nombre}"
                    class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
 
@@ -22,7 +24,9 @@
         <!-- Campo de Estado -->
         <div class="flex flex-col">
             <label for="estado" class="text-gray-700 font-semibold">Estado</label>
-            <select id="estado" name="estado"  th:classappend="${#fields.hasErrors('estado')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
+            <select id="estado" name="estado"
+                    th:classappend="${#fields.hasErrors('estado')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
+                    th:field="*{estado}"
                     class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                 <option value="" selected>Seleccione</option>
                 <option th:value="1">Activo</option>

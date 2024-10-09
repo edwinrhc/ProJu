@@ -42,7 +42,7 @@ public class EtapaProcesalController {
         model.addAttribute("page",pageRender);
 
         if(etapaProcesal.isEmpty()){
-            model.addAttribute("mensaje","No se encontraron usuarios");
+            model.addAttribute("mensaje","No se encontraron resultados");
         }
 
         return "uap/etapaProcesal/etapaProcesalView";
