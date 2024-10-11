@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface IEtapaProcesalDao extends PagingAndSortingRepository<EtapaProcesal, Long> {
 
-    @Query(value="SELECT e FROM EtapaProcesal  e ORDER BY e.id DESC ")
+    @Query(value="SELECT e FROM EtapaProcesal  e ORDER BY e.id ASC ")
     Page<EtapaProcesal>  obtenerTodos(Pageable pageable);
 
 }

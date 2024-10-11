@@ -8,22 +8,20 @@
 <div class="flex-grow container mx-auto p-6">
 
     <!-- Botón para crear solicitud alineado a la derecha -->
-<!--    <div class="flex justify-end mb-6">-->
-<!--        <a th:href="@{/etapaProcesal/get}"-->
-<!--           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">-->
-<!--            Registro Nuevo-->
-<!--        </a>-->
-<!--    </div>-->
+    <div class="flex justify-end mb-6">
+        <a th:href="@{/tipoContigencia/get}"
+           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
+            Registro Nuevo
+        </a>
+    </div>
 
     <div class="container w-3/4 p-6">
 
-<!--        <h1 class="text-2xl font-bold mb-4" th:text="${titulo}"></h1>-->
+        <h1 class="text-2xl font-bold mb-4" th:text="${titulo}"></h1>
 
-<!--        <div th:if="${mensaje}">-->
-        <div>
+        <div th:if="${mensaje}">
             <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
-<!--                <strong th:text="${mensaje}"></strong>-->
-                <strong></strong>
+                <strong th:text="${mensaje}"></strong>
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3"
                       onclick="this.parentElement.style.display='none';">
             <svg class="fill-current h-6 w-6 text-yellow-700" role="button" xmlns="http://www.w3.org/2000/svg"
@@ -36,8 +34,7 @@
         </div>
 
 
-<!--        <div th:unless="${mensaje}">-->
-        <div>
+        <div th:unless="${mensaje}">
             <table class="min-w-full bg-white border border-gray-300">
                 <thead>
                 <th class="py-2 px-4 border-b">Nombre</th>
@@ -46,29 +43,28 @@
 
                 </thead>
                 <tbody>
-<!--                &lt;!&ndash; Fila de ejemplo, agrega más filas según sea necesario &ndash;&gt;-->
-<!--                <tr th:each="procesal, procesalIndex: ${etapaProcesalList}" class="hover:bg-gray-100">-->
-<!--                    <td class="py-2 px-4 border-b  text-center" th:text="${procesal.nombre}"></td>-->
-<!--                    <td class="py-2 px-4 border-b  text-center" th:text="${procesal.estado ? 'Activo' : 'Inactivo'}"></td>-->
+                <!-- Fila de ejemplo, agrega más filas según sea necesario -->
+                <tr th:each="tipoConti, tipoContiIndex: ${tipoContigenciaList}" class="hover:bg-gray-100">
+                    <td class="py-2 px-4 border-b  text-center" th:text="${tipoConti.nombre}"></td>
+                    <td class="py-2 px-4 border-b  text-center" th:text="${tipoConti.estado ? 'Activo' : 'Inactivo'}"></td>
 
-<!--                    <td class="py-2 px-4 border-b text-center">-->
-<!--                        &lt;!&ndash;                    th:href="@{'/etapaProcesal/editar/' + ${procesal.id}}"&ndash;&gt;-->
-<!--                        <a th:href="@{/etapaProcesal/get/{id}(id=${procesal.id})}"-->
-<!--                           class="text-sm bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">-->
-<!--                            Editar-->
-<!--                        </a>-->
-<!--                    </td>-->
+                    <td class="py-2 px-4 border-b text-center">
+                        <a th:href="@{/tipoContigencia/get/{id}(id=${tipoConti.id})}"
+                           class="text-sm bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                            Editar
+                        </a>
+                    </td>
 
-<!--                </tr>-->
-<!--                &lt;!&ndash; Agrega más filas aquí &ndash;&gt;-->
+                </tr>
+                <!-- Agrega más filas aquí -->
                 </tbody>
             </table>
 
         </div>
 
 
-<!--        <p class="flex justify-end font-bold mt-4" th:text="'Total: ' + ${total}"></p>-->
-<!--        <nav th:replace="paginador/paginator-nav :: paginator"></nav>-->
+        <p class="flex justify-end font-bold mt-4" th:text="'Total: ' + ${total}"></p>
+        <nav th:replace="paginador/paginator-nav :: paginator"></nav>
     </div>
 
 
