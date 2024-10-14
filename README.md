@@ -8,7 +8,6 @@
 - **Backend:**
     - Java 17
     - Spring Boot 2.7.13
-    - Thymeleaf
     - Spring Security
     - JPA y JDBC
     - Oracle JDBC
@@ -16,6 +15,7 @@
     - Spring Boot DevTools
 
 - **Frontend:**
+    - Thymeleaf
     - Tailwind CSS
 
 
