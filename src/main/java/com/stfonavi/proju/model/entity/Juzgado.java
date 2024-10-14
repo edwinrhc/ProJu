@@ -1,6 +1,5 @@
 package com.stfonavi.proju.model.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,22 +20,27 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="etapa_procesal")
-public class EtapaProcesal implements Serializable {
+@Table(name="juzgado")
+public class Juzgado implements Serializable {
+
 
     @Serial
-    private static final long serialVersionUID = -5442316589103608131L;
+    private static final long serialVersionUID = 2993057363231848752L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_ETAPA")
+    @Column(name = "id_juzgado")
     private long id;
 
-    @Column(name="NOMBRE")
+    @Column(name="nombre")
     @NotEmpty(message = "El campo  no puede estar en blanco")
     private String nombre;
 
-    @Column(name="ESTADO")
+    @Column(name="lugar")
+    @NotEmpty(message = "El campo  no puede estar en blanco")
+    private String lugar;
+
+    @Column(name="estado")
     @NotNull(message = "El campo no puede ser nulo")
     private Boolean estado;
 
@@ -48,6 +52,7 @@ public class EtapaProcesal implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_actualizada")
     private Date updatedAt;
+
 
     @CreatedBy
     @Column(name = "creado_por", updatable = false)
@@ -66,4 +71,5 @@ public class EtapaProcesal implements Serializable {
     public void preUpdate(){
         updatedAt = new Date();
     }
+
 }

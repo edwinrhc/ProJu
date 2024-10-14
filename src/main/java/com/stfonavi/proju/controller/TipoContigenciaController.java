@@ -32,7 +32,7 @@ public class TipoContigenciaController {
     private ITipoContigenciaService tipoContigenciaService;
 
 
-    @GetMapping("/tipoContigenciaView")
+    @GetMapping("/view")
     public String mostrar(@RequestParam(name ="page",defaultValue = "0")int page, Model model){
 
         Pageable pageRequest = PageRequest.of(page, 10);
@@ -40,7 +40,7 @@ public class TipoContigenciaController {
         logger.info(tipoContigencias.toString());
 
         long total = tipoContigencias.getTotalElements();
-        PageRender<TipoContigencia> pageRender = new PageRender<>("/tipoContigencia/tipoContigenciaView",tipoContigencias);
+        PageRender<TipoContigencia> pageRender = new PageRender<>("/tipoContigencia/view",tipoContigencias);
 
         model.addAttribute("titulo","Tipo Contigencia");
         model.addAttribute("dateFormat", Constantes.getSimpleDateFormat());
@@ -82,7 +82,7 @@ public class TipoContigenciaController {
         status.setComplete();
         flash.addFlashAttribute("success",mensajeFlash);
 
-        return "redirect:/tipoContigencia/tipoContigenciaView";
+        return "redirect:/tipoContigencia/view";
     }
 
     @GetMapping("/get/{id}")
@@ -94,12 +94,12 @@ public class TipoContigenciaController {
             tipoContigencia = tipoContigenciaService.findOne(id);
             if(tipoContigencia == null){
                 flash.addFlashAttribute("error","Tipo Contigencia procesal no existe");
-                return "redirect:/tipoContigencia/tipoContigenciaView";
+                return "redirect:/tipoContigencia/view";
             }
             boton = "Editar Registro";
         }else {
             flash.addFlashAttribute("error", "ID no válido");
-            return "redirect:/tipoContigencia/tipoContigenciaView";
+            return "redirect:/tipoContigencia/view";
         }
 
         model.put("tipoContigencia",tipoContigencia);

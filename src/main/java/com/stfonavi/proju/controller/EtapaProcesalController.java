@@ -28,14 +28,14 @@ public class EtapaProcesalController {
     private IEtapaProcesalService etapaProcesalService;
 
 
-    @GetMapping("/etapaProcesalView")
+    @GetMapping("/view")
     public String mostrarEtapa(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         Pageable pageRequest = PageRequest.of(page, 10);
         Page<EtapaProcesal> etapaProcesal = etapaProcesalService.findAll(pageRequest);
         long total = etapaProcesal.getTotalElements();
-        PageRender<EtapaProcesal> pageRender = new PageRender<>("/etapaProcesal/etapaProcesalView", etapaProcesal);
+        PageRender<EtapaProcesal> pageRender = new PageRender<>("/etapaProcesal/view", etapaProcesal);
 
-        model.addAttribute("titulo","Listado de etapas procesales");
+        model.addAttribute("tituloListado",Constantes.tituloEtapaProcesal);
         model.addAttribute("dateFormat", Constantes.getSimpleDateFormat());
         model.addAttribute("total",total);
         model.addAttribute("etapaProcesalList",etapaProcesal);
@@ -44,7 +44,6 @@ public class EtapaProcesalController {
         if(etapaProcesal.isEmpty()){
             model.addAttribute("mensaje","No se encontraron resultados");
         }
-
         return "uap/etapaProcesal/etapaProcesalView";
     }
 
@@ -52,7 +51,8 @@ public class EtapaProcesalController {
     public String mostrarFormEtapa(Map<String, Object> model) {
         EtapaProcesal etapaProcesal = new EtapaProcesal();
         model.put("etapaProcesal", etapaProcesal);
-        model.put("boton", "Registro nuevo");
+        model.put("boton", Constantes.botonNuevo);
+        model.put("tituloForm",Constantes.registroForm);
 
         return "uap/etapaProcesal/formEtapaProcesal";
     }
@@ -64,6 +64,8 @@ public class EtapaProcesalController {
         // Si hay errores de validación, regresa al formulario
         if (result.hasErrors()) {
             model.addAttribute("etapaProcesal", etapaProcesal);
+            model.addAttribute("tituloForm",Constantes.registroForm);
+            model.addAttribute("boton",Constantes.botonNuevo);
             return "uap/etapaProcesal/formEtapaProcesal";  // Aquí coloca el nombre de tu plantilla Thymeleaf para el formulario
         }
 
@@ -73,7 +75,7 @@ public class EtapaProcesalController {
         status.setComplete();
         flash.addFlashAttribute("success",mensajeFlash);
 
-        return "redirect:/etapaProcesal/etapaProcesalView";
+        return "redirect:/etapaProcesal/view";
     }
 
 
@@ -86,17 +88,16 @@ public class EtapaProcesalController {
             etapaProcesal = etapaProcesalService.findOne(id);
             if (etapaProcesal == null) {
                 flash.addFlashAttribute("error", "Etapa procesal no existe.");
-                return "redirect:/etapaProcesal/etapaProcesalView";  // Redirigir a la lista en lugar de mostrar la vista
+                return "redirect:/etapaProcesal/view";  // Redirigir a la lista en lugar de mostrar la vista
             }
-            boton = "Editar Registro";
+            boton = Constantes.botonEditar;
         } else {
             flash.addFlashAttribute("error", "ID no válido.");
-            return "redirect:/etapaProcesal/etapaProcesalView";  // Redirigir si el ID es inválido
+            return "redirect:/etapaProcesal/view";  // Redirigir si el ID es inválido
         }
 
-
         model.put("etapaProcesal",etapaProcesal);
-        model.put("titulo","Editar");
+        model.put("tituloForm",Constantes.editarForm);
         model.put("boton",boton);
 
         return "uap/etapaProcesal/formEtapaProcesal";

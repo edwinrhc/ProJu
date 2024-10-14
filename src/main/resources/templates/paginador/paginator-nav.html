@@ -23,7 +23,13 @@
             </li>
 
             <!-- Números de página -->
-            <li th:each="item : ${page.paginas}" th:class="${item.actual ? 'bg-blue-500 text-white' : ''}">
+<!--            <li th:each="item : ${page.paginas}" th:class="${item.actual ? 'bg-blue-500 text-white' : ''}">-->
+<!--                <a class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"-->
+<!--                   th:if="${not item.actual}" th:href="@{${page.url}(page=${item.numero - 1}, nombre=${nombreBusqueda})}" th:text="${item.numero}"></a>-->
+<!--                <span class="px-4 py-2 border border-gray-300 rounded-md text-gray-700"-->
+<!--                      th:if="${item.actual}" th:text="${item.numero}"></span>-->
+<!--            </li>-->
+            <li th:each="item : ${page.paginas}" th:class="${item.actual ? 'border-b-4 border-blue-500' : ''}">
                 <a class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
                    th:if="${not item.actual}" th:href="@{${page.url}(page=${item.numero - 1}, nombre=${nombreBusqueda})}" th:text="${item.numero}"></a>
                 <span class="px-4 py-2 border border-gray-300 rounded-md text-gray-700"

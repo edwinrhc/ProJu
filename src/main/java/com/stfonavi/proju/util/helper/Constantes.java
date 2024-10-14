@@ -6,10 +6,20 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.logging.Logger;
 
 public class Constantes {
+
+    public static final String tituloJuzgado = "Listado de Juzgados";
+    public static final String tituloEtapaProcesal = "Listado - Etapa Procesal";
+    public static final String registroForm = "Nuevo registro";
+    public static final String editarForm = "Editar registro";
+
+
+    public static  final String botonNuevo = "Nuevo Registro";
+    public static  final String botonEditar = "Editar Registro";
 
 
     public static final String SOMETHING_WENT_WRONG = "Something Went Wrong.";
@@ -26,7 +36,6 @@ public class Constantes {
     public static SimpleDateFormat getSimpleDateFormat() {
         return new SimpleDateFormat(FORMATO_FECHA);
     }
-
 
     public static Date parseDate(String dateString) throws ParseException {
         if (dateString != null && !dateString.isEmpty()) {

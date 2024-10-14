@@ -10,12 +10,15 @@
     <!-- Botón para crear solicitud alineado a la derecha -->
     <div class="flex justify-end mb-6">
         <a th:href="@{/tipoContigencia/get}"
-           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
-            Registro Nuevo
+           class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">
+            Nuevo
+            <span>
+                     <i class="fa-solid fa-plus"></i>
+            </span>
         </a>
     </div>
 
-    <div class="container w-3/4 p-6">
+    <div class="container p-6">
 
         <h1 class="text-2xl font-bold mb-4" th:text="${titulo}"></h1>
 
@@ -36,22 +39,30 @@
 
         <div th:unless="${mensaje}">
             <table class="min-w-full bg-white border border-gray-300">
-                <thead>
+                <thead class="bg-gray-200 text-gray-700 text-left">
                 <th class="py-2 px-4 border-b">Nombre</th>
                 <th class="py-2 px-4 border-b">Estado</th>
+                <th class="py-2 px-4 border-b">Creado</th>
+                <th class="py-2 px-4 border-b">Creado Por</th>
+                <th class="py-2 px-4 border-b">Modificado</th>
+                <th class="py-2 px-4 border-b">Modificado por</th>
                 <th class="py-2 px-4 border-b"></th>
 
                 </thead>
                 <tbody>
                 <!-- Fila de ejemplo, agrega más filas según sea necesario -->
                 <tr th:each="tipoConti, tipoContiIndex: ${tipoContigenciaList}" class="hover:bg-gray-100">
-                    <td class="py-2 px-4 border-b  text-center" th:text="${tipoConti.nombre}"></td>
-                    <td class="py-2 px-4 border-b  text-center" th:text="${tipoConti.estado ? 'Activo' : 'Inactivo'}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${tipoConti.nombre}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${tipoConti.estado ? 'Activo' : 'Inactivo'}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${dateFormat.format(tipoConti.createdAt)}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${tipoConti.createdBy}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${tipoConti.updatedAt != null ? dateFormat.format(tipoConti.updatedAt) : '-'}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${tipoConti.updatedBy}"></td>
 
                     <td class="py-2 px-4 border-b text-center">
                         <a th:href="@{/tipoContigencia/get/{id}(id=${tipoConti.id})}"
-                           class="text-sm bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
-                            Editar
+                           class="text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                            <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                     </td>
 

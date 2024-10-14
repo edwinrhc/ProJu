@@ -10,14 +10,17 @@
     <!-- Botón para crear solicitud alineado a la derecha -->
     <div class="flex justify-end mb-6">
         <a th:href="@{/etapaProcesal/get}"
-           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
-            Registro Nuevo
+           class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">
+            Nuevo
+            <span>
+                     <i class="fa-solid fa-plus"></i>
+            </span>
         </a>
     </div>
 
-    <div class="container w-3/4 p-6">
+    <div class="container p-6">
 
-        <h1 class="text-2xl font-bold mb-4" th:text="${titulo}"></h1>
+        <h1 class="text-2xl font-bold mb-4" th:text="${tituloListado}"></h1>
 
         <div th:if="${mensaje}">
             <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
@@ -36,23 +39,31 @@
 
         <div th:unless="${mensaje}">
         <table class="min-w-full bg-white border border-gray-300">
-            <thead>
+            <thead class="bg-gray-200 text-gray-700 text-left">
             <th class="py-2 px-4 border-b">Nombre</th>
             <th class="py-2 px-4 border-b">Estado</th>
+            <th class="py-2 px-4 border-b">Creado</th>
+            <th class="py-2 px-4 border-b">Creado Por</th>
+            <th class="py-2 px-4 border-b">Modificado</th>
+            <th class="py-2 px-4 border-b">Modificado por</th>
             <th class="py-2 px-4 border-b"></th>
 
             </thead>
             <tbody>
             <!-- Fila de ejemplo, agrega más filas según sea necesario -->
             <tr th:each="procesal, procesalIndex: ${etapaProcesalList}" class="hover:bg-gray-100">
-                <td class="py-2 px-4 border-b  text-center" th:text="${procesal.nombre}"></td>
-                <td class="py-2 px-4 border-b  text-center" th:text="${procesal.estado ? 'Activo' : 'Inactivo'}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesal.nombre}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesal.estado ? 'Activo' : 'Inactivo'}"></td>
+                <td class="py-2 px-4 border-b" th:text="${dateFormat.format(procesal.createdAt)}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesal.createdBy}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesal.updatedAt != null ? dateFormat.format(procesal.updatedAt) : '-'}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesal.updatedBy}"></td>
 
                 <td class="py-2 px-4 border-b text-center">
 <!--                    th:href="@{'/etapaProcesal/editar/' + ${procesal.id}}"-->
                     <a th:href="@{/etapaProcesal/get/{id}(id=${procesal.id})}"
-                       class="text-sm bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
-                        Editar
+                       class="text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                        <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                 </td>
 
