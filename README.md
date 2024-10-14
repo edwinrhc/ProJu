@@ -6,17 +6,16 @@
 ## Tecnologías
 
 - **Backend:**
-    - Java 17
-    - Spring Boot 2.7.13
-    - Spring Security
-    - JPA y JDBC
-    - Oracle JDBC
-    - Lombok
-    - Spring Boot DevTools
+    - **Lenguaje:** Java 17
+    - **Framework:** Spring Boot 2.7.13
+    - **Seguridad:** Spring Security
+    - **Persistencia:** JPA y JDBC
+    - **Base de datos:** Oracle JDBC
+    - **Utilidades:** Lombok, Spring Boot DevTools
 
 - **Frontend:**
-    - Thymeleaf
-    - Tailwind CSS
+    - **Plantillas:** Thymeleaf
+    - **Estilos:** Tailwind CSS
 
 
 ## Requisitos
