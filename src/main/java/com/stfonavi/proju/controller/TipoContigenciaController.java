@@ -35,7 +35,7 @@ public class TipoContigenciaController {
     @GetMapping("/view")
     public String mostrar(@RequestParam(name ="page",defaultValue = "0")int page, Model model){
 
-        Pageable pageRequest = PageRequest.of(page, 10);
+        Pageable pageRequest = PageRequest.of(page, Constantes.pagSize);
         Page<TipoContigencia> tipoContigencias = tipoContigenciaService.findAll(pageRequest);
         logger.info(tipoContigencias.toString());
 

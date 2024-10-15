@@ -22,6 +22,9 @@ public class Constantes {
     public static  final String botonEditar = "Editar Registro";
 
 
+    public static final int pagSize=  8;
+
+
     public static final String SOMETHING_WENT_WRONG = "Something Went Wrong.";
 
     public static final String INVALID_DATA = "Invalid Data.";
@@ -32,6 +35,10 @@ public class Constantes {
     public static final String FORMATO_FECHA = "dd/MM/yyy";
 
     public static final String VERSION = "v 1.0.0";
+
+
+
+
 
     public static SimpleDateFormat getSimpleDateFormat() {
         return new SimpleDateFormat(FORMATO_FECHA);

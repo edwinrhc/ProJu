@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: head"></head>
+
+<nav th:replace="fragments/navbar :: navbar"></nav>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+<div class="flex-grow container mx-auto p-6">
+
+    <div class="container mx-auto px-4 py-6">
+        <!-- Encabezado de la tabla -->
+        <h2 class="text-2xl font-bold mb-4">Movimientos de Expedientes</h2>
+
+        <table class="table-auto w-full bg-white border border-gray-200">
+            <thead>
+            <tr class="bg-gray-200">
+                <th class="px-4 py-2 border text-left">Nro. Expediente</th>
+                <th class="px-4 py-2 border text-left">Demandante</th>
+                <th class="px-4 py-2 border text-left">Demandado</th>
+                <th class="px-4 py-2 border text-left">Etapa Procesal</th>
+                <th class="px-4 py-2 border text-left">Abogado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Fila de datos -->
+            <tr>
+                <td class="px-4 py-2 border">12345</td>
+                <td class="px-4 py-2 border">Juan Pérez</td>
+                <td class="px-4 py-2 border">Compañía XYZ</td>
+                <td class="px-4 py-2 border">Inicial</td>
+                <td class="px-4 py-2 border">Lic. María Rodríguez</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Línea de tiempo o movimientos del proceso -->
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">Historial de Procesos</h3>
+            <div class="relative border-l border-gray-200">
+                <!-- Movimiento 1 -->
+                <div class="mb-10 ml-4">
+                    <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-1.5 border border-white"></div>
+                    <div class="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                        <span class="font-medium text-blue-500">Estado: Aceptado</span>
+                        <p class="text-sm text-gray-700">Por Res. 44 de fecha 05.08.2011 se ordena cumplir lo ejecutoriado.10/01/2012 res Nº 46 Requiérase a la demandada, para que dentro del plazo de 3 días cumpla con otorgar la escritura Publica bajo apercibimiento de ser otorgada por el juzgado.  </p>
+                        <time class="block text-sm text-gray-500">Fecha: 05/08/2011</time>
+                    </div>
+                </div>
+                <!-- Movimiento 1 -->
+                <div class="mb-10 ml-4">
+                    <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-1.5 border border-white"></div>
+                    <div class="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                        <span class="font-medium text-blue-500">Estado: Aceptado</span>
+                        <p class="text-sm text-gray-700">22/02/2017 RES N° 53 Requiérase a la demandada MEF/FONAVI para que dentro del plazo de tres días de notificado cumpla con otorgar la escritura publica materia de litis bajo apercibimiento de ser otorgado por el Juzgado conforme a al sentencia recaída en autos</p>
+                        <time class="block text-sm text-gray-500">Fecha: 22/02/2017</time>
+                    </div>
+                </div>
+
+                <!-- Movimiento 2 -->
+                <div class="mb-10 ml-4">
+                    <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-1.5 border border-white"></div>
+                    <div class="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                        <span class="font-medium text-red-500">Estado: En proceso</span>
+                        <p class="text-sm text-gray-700">Descripción del segundo movimiento</p>
+                        <time class="block text-sm text-gray-500">Fecha: 15/10/2024</time>
+                    </div>
+                </div>
+                <!-- Agregar más movimientos aquí -->
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+</body>
+<footer th:replace="fragments/footer :: footer" class="bg-gray-800 text-white py-4"></footer>
+</html>

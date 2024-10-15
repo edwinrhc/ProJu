@@ -14,11 +14,12 @@
     <p sec:authorize="isAuthenticated()" class="text-center text-sm">
         © <span id="currentYear"></span> Todos los derechos reservados.
     </p>
-    <p sec:authorize="isAuthenticated()" class="text-center text-sm">
-        Secretaría Técnica FONAVI ® Todos los derechos reservados <span th:text="${version}"></span>
+    <p sec:authorize="isAuthenticated()" class="text-center text-sm" th:text="'Secretaría Técnica FONAVI '+${version}">
+<!--        -->
     </p>
     <script th:src="@{/public/sweetalert2/sweetalert2.min.js}"></script>
     <script th:src="@{/public/fontawesome/3f3a8f867c.js}"></script>
+    <script th:src="@{/js/home/home.js}"></script>
 </footer>
 
 </body>

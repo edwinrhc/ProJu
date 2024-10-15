@@ -24,22 +24,16 @@ import java.util.Map;
 @SessionAttributes("juzgado")
 @RequestMapping("/juzgado")
 public class JuzgadoController {
-
     private static final Logger logger = LoggerFactory.getLogger(JuzgadoController.class);
-
     @Autowired
     private IJuzgadoService juzgadoService;
-
     @GetMapping("/view")
     public String mostrar(@RequestParam(name="page",defaultValue = "0")int page, Model model){
-
-        Pageable pageRequest = PageRequest.of(page, 10);
+        Pageable pageRequest = PageRequest.of(page, Constantes.pagSize);
         Page<Juzgado> juzgado = juzgadoService.findAll(pageRequest);
         logger.info(juzgado.toString());
-
         long total = juzgado.getTotalElements();
         PageRender<Juzgado> pageRender = new PageRender<>("/juzgado/view",juzgado);
-
         model.addAttribute("titulo",Constantes.tituloJuzgado);
         model.addAttribute("dateFormat", Constantes.getSimpleDateFormat());
         model.addAttribute("total",total);

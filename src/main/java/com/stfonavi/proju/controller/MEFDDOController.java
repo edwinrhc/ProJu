@@ -18,4 +18,12 @@ public class MEFDDOController {
         return "uap/mefddo/mefDdoView";
     }
 
+    @GetMapping("/mefDdoViewMovimiento")
+    public String mostrarMefDDOMovimiento(Model model){
+
+//        model.addAttribute("titulo","Reporte MEF.DDO");
+
+        return "uap/mefddo/mefDdoMovimientoView";
+    }
+
 }

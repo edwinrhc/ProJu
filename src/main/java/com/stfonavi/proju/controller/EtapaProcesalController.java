@@ -30,7 +30,7 @@ public class EtapaProcesalController {
 
     @GetMapping("/view")
     public String mostrarEtapa(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-        Pageable pageRequest = PageRequest.of(page, 10);
+        Pageable pageRequest = PageRequest.of(page, Constantes.pagSize);
         Page<EtapaProcesal> etapaProcesal = etapaProcesalService.findAll(pageRequest);
         long total = etapaProcesal.getTotalElements();
         PageRender<EtapaProcesal> pageRender = new PageRender<>("/etapaProcesal/view", etapaProcesal);
