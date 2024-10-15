@@ -26,7 +26,7 @@ public class Movimiento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_MOVIMIENTO")
-    private long id;
+    private long idMovimiento;
 
     @Column(name="NOMBRE")
     @NotEmpty(message = "El campo  no puede estar en blanco")

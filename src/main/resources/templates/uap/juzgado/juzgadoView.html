@@ -9,8 +9,8 @@
 
     <!-- Botón para crear solicitud alineado a la derecha -->
     <div class="flex justify-end mb-6">
-        <a th:href="@{/tipoContigencia/get}"
-           class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200">
+        <a th:href="@{/juzgado/get}"
+           class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-400 transition-colors duration-200">
             Nuevo
             <span>
                      <i class="fa-solid fa-plus"></i>
@@ -21,6 +21,27 @@
     <div class="container p-6">
 
         <h1 class="text-2xl font-bold mb-4" th:text="${titulo}"></h1>
+
+        <div class="flex justify-start mb-4">
+            <form action="/juzgado/search" method="GET">
+                <div class="flex">
+                    <input
+                            class="m-2 form-input border border-gray-300 rounded px-3 py-2 w-64"
+                            name="nombre"
+                            placeholder="Buscar por juzgado o lugar"
+                            id="searchBox"
+                            type="text"
+                            th:value="${nombreBusqueda}"
+                    />
+                    <button
+                            class="m-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded"
+                            type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
 
         <div th:if="${mensaje}">
             <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
@@ -41,6 +62,7 @@
             <table class="min-w-full bg-white border border-gray-300">
                 <thead class="bg-gray-200 text-gray-700 text-left">
                 <th class="py-2 px-4 border-b">Nombre</th>
+                <th class="py-2 px-4 border-b">Lugar</th>
                 <th class="py-2 px-4 border-b">Estado</th>
                 <th class="py-2 px-4 border-b">Creado</th>
                 <th class="py-2 px-4 border-b">Creado Por</th>
@@ -51,18 +73,21 @@
                 </thead>
                 <tbody>
                 <!-- Fila de ejemplo, agrega más filas según sea necesario -->
-                <tr th:each="tipoConti, tipoContiIndex: ${tipoContigenciaList}" class="hover:bg-gray-100">
-                    <td class="py-2 px-4 border-b" th:text="${tipoConti.nombre}"></td>
-                    <td class="py-2 px-4 border-b" th:text="${tipoConti.estado ? 'Activo' : 'Inactivo'}"></td>
-                    <td class="py-2 px-4 border-b" th:text="${dateFormat.format(tipoConti.createdAt)}"></td>
-                    <td class="py-2 px-4 border-b" th:text="${tipoConti.createdBy}"></td>
-                    <td class="py-2 px-4 border-b" th:text="${tipoConti.updatedAt != null ? dateFormat.format(tipoConti.updatedAt) : '-'}"></td>
-                    <td class="py-2 px-4 border-b" th:text="${tipoConti.updatedBy}"></td>
+                <tr th:each="juzgado, juzgadoIndex: ${juzgadoList}" class="hover:bg-gray-100 text-left">
+                    <td class="py-2 px-4 border-b" th:text="${juzgado.nombre}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${juzgado.lugar}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${juzgado.estado ? 'Activo' : 'Inactivo'}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${dateFormat.format(juzgado.createdAt)}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${juzgado.createdBy}"></td>
+                    <td class="py-2 px-4 border-b" th:text="${juzgado.updatedAt != null ? dateFormat.format(juzgado.updatedAt) : '-'}"></td>
+                    <td class="py-2 px-4 border-b " th:text="${juzgado.updatedBy}"></td>
 
                     <td class="py-2 px-4 border-b text-center">
-                        <a th:href="@{/tipoContigencia/get/{id}(id=${tipoConti.idTipoContigencia})}"
-                           class="text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                        <!--                    th:href="@{'/etapaProcesal/editar/' + ${procesal.id}}"-->
+                        <a th:href="@{/juzgado/get/{id}(id=${juzgado.idJuzgado})}"
+                           class="text-sm bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
                             <i class="fa-regular fa-pen-to-square"></i>
+                            <!--                        Editar-->
                         </a>
                     </td>
 

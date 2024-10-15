@@ -78,7 +78,7 @@ public class TipoContigenciaController {
         }
         tipoContigenciaService.save(tipoContigencia);
 
-        String mensajeFlash = (tipoContigencia.getId() != 0) ? "Editar Correctamente": "Creado Correctamente";
+        String mensajeFlash = (tipoContigencia.getIdTipoContigencia() != 0) ? "Editar Correctamente": "Creado Correctamente";
         status.setComplete();
         flash.addFlashAttribute("success",mensajeFlash);
 

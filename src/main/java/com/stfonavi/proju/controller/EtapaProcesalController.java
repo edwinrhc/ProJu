@@ -71,7 +71,7 @@ public class EtapaProcesalController {
 
         etapaProcesalService.save(etapaProcesal);
 
-        String mensajeFlash = (etapaProcesal.getId()  != 0) ? "Edita correctamente": "Creado correctamente";
+        String mensajeFlash = (etapaProcesal.getIdEtapa()  != 0) ? "Edita correctamente": "Creado correctamente";
         status.setComplete();
         flash.addFlashAttribute("success",mensajeFlash);
 

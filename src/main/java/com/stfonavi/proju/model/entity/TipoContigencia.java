@@ -30,7 +30,7 @@ public class TipoContigencia implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CONTINGENCIA")
-    private long id;
+    private long idTipoContigencia;
 
     @Column(name="NOMBRE")
     @NotEmpty(message = "El campo  no puede estar en blanco")

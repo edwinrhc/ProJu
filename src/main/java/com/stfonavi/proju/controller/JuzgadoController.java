@@ -69,7 +69,7 @@ public class JuzgadoController {
         }
         juzgadoService.save(juzgado);
 
-        String mensajeFlash = (juzgado.getId() != 0) ? "Editar Correctamente": "Creado Correctamente";
+        String mensajeFlash = (juzgado.getIdJuzgado() != 0) ? "Editar Correctamente": "Creado Correctamente";
         status.setComplete();
         flash.addFlashAttribute("success",mensajeFlash);
         return "redirect:/juzgado/view";

@@ -30,7 +30,7 @@ public class Juzgado implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_juzgado")
-    private long id;
+    private long idJuzgado;
 
     @Column(name="nombre")
     @NotEmpty(message = "El campo  no puede estar en blanco")
