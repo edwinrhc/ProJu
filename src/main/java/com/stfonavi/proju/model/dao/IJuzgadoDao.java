@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface IJuzgadoDao  extends PagingAndSortingRepository<Juzgado,Long> {
 
-    @Query(value = "SELECT t FROM Juzgado t ORDER BY t.id ASC ")
+    @Query(value = "SELECT t FROM Juzgado t ORDER BY t.idJuzgado ASC ")
     Page<Juzgado> obtenerTodos(Pageable pageable);
 
     @Query("SELECT j FROM Juzgado j WHERE LOWER(j.nombre) LIKE LOWER(CONCAT('%',:juzgado, '%')) OR  LOWER(j.lugar) LIKE LOWER(CONCAT('%',:juzgado, '%'))")

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/mefddo")
 public class MEFDDOController {
 
-
+//TODO: ELIMINAR EL CONTROLLER Y SUS VISTAS
     @GetMapping("/mefDdoView")
     public String mostrarMefDDO(Model model){
 

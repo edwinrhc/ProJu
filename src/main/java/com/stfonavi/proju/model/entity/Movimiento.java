@@ -32,7 +32,7 @@ public class Movimiento implements Serializable {
     @NotEmpty(message = "El campo  no puede estar en blanco")
     private String nombre;
 
-    @NotNull(message = "El campo de área no puede estar en blanco")
+    @NotNull(message = "El campo etapa procesal no puede estar en blanco")
     @Column(name = "ID_ETAPA")
     private long idEtapaProcesal;
 

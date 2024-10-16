@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class IMovimientoServiceImpl implements IMovimientoService {
+public class MovimientoServiceImpl implements IMovimientoService {
 
-    private static final Logger logger = LoggerFactory.getLogger(IMovimientoServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MovimientoServiceImpl.class);
 
     @Autowired
     private IMovimientoDao movimientoDao;

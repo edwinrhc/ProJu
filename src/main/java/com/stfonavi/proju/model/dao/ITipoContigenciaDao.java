@@ -8,6 +8,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ITipoContigenciaDao  extends PagingAndSortingRepository<TipoContigencia, Long> {
 
-    @Query(value = "SELECT t FROM TipoContigencia t ORDER BY t.id ASC ")
+    @Query(value = "SELECT t FROM TipoContigencia t ORDER BY t.idTipoContigencia ASC ")
     Page<TipoContigencia> obtenerTodos(Pageable pageable);
 }

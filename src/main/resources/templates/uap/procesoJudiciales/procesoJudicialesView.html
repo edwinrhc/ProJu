@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: head"></head>
+
+<nav th:replace="fragments/navbar :: navbar"></nav>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+<div class="flex-grow container mx-auto p-6">
+
+    <!-- Botón para crear solicitud alineado a la derecha -->
+    <div class="flex justify-end mb-6">
+        <a href="#"
+           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
+            Nuevo N° Expediente
+        </a>
+    </div>
+
+    <div class="container mx-auto p-6">
+        <h1 class="text-2xl font-bold mb-4">Listado de Procesos Judiciales</h1>
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+            <tr class="bg-gray-200 text-gray-700 text-left">
+                <th class="py-2 px-4 border-b">EXPEDIENTE</th>
+                <th class="py-2 px-4 border-b">MATERIA</th>
+                <th class="py-2 px-4 border-b">MONTO</th>
+                <th class="py-2 px-4 border-b">TIPO MONEDA</th>
+                <th class="py-2 px-4 border-b">DEMANDANTE</th>
+                <th class="py-2 px-4 border-b">DEMANDADO</th>
+<!--                <th class="py-2 px-4 border-b">ESTADO_PROCESO</th>-->
+                <th class="py-2 px-4 border-b">ETAPA PROCESAL</th>
+                <th class="py-2 px-4 border-b">TIPO DE CONTINGENCIA</th>
+                <th class="py-2 px-4 border-b">ABOGADO</th>
+                <th class="py-2 px-4 border-b">Editar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Fila de ejemplo, agrega más filas según sea necesario -->
+            <tr class="hover:bg-gray-100">
+                <td class="py-2 px-4 border-b">60054-05</td>
+                <td class="py-2 px-4 border-b">Otorgamiento de escritura pública</td>
+                <td class="py-2 px-4 border-b">00</td>
+                <td class="py-2 px-4 border-b">S/.</td>
+                <td class="py-2 px-4 border-b">Juan Pérez</td>
+                <td class="py-2 px-4 border-b">MEF / COLFONAVI</td>
+<!--                <td class="py-2 px-4 border-b relative group">-->
+<!--                        Por Res. 44 de fecha 05.08.2011 se ordena cumplir lo ejecutoriado.-->
+<!--                    <a href="#" class="text-blue-500 hover:underline">  <span class="text-gray-600">...ver más </span>-->
+<!--                   </a>-->
+<!--                </td>-->
+                <td class="py-2 px-4 border-b">EN EJECUCIÓN</td>
+                <td class="py-2 px-4 border-b">REMOTO</td>
+                <td class="py-2 px-4 border-b">DIANA</td>
+                <td class="py-2 px-4 border-b">EDITAR</td>
+            </tr>
+            <!-- Agrega más filas aquí -->
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+</div>
+</body>
+<footer th:replace="fragments/footer :: footer" class="bg-gray-800 text-white py-4"></footer>
+</html>

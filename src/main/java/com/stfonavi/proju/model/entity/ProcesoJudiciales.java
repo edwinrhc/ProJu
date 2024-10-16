@@ -27,7 +27,7 @@ public class ProcesoJudiciales implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_expediente")
-    private long id;
+    private long idProcesoJudicial;
 
 
     @Column(name="n_expediente")
@@ -59,13 +59,32 @@ public class ProcesoJudiciales implements Serializable {
     @NotEmpty(message="El campo no puede estar en blanco")
     private String abogado;
 
+    @NotNull(message = "El campo juzgado no puede estar en blanco ")
+    @Column(name="id_juzgado")
     private long idJuzgado;
 
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name="id_juzgado", referencedColumnName = "id_juzgado", insertable = false, updatable = false)
+    private Juzgado juzgado;
+
+
+    @NotNull(message = "EL campo contigencia no puede estar en blanco")
+    @Column(name="id_contigencia")
     private long idContigencia;
 
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name="id_contigencia", referencedColumnName = "id_contingencia", insertable = false, updatable = false)
+    private TipoContigencia tipoContigencia;
+
+    @NotNull(message = "El campo  no puede estar en blanco")
+    @Column(name="id_movimiento")
     private long idMovimiento;
 
-    
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name="id_movimiento", referencedColumnName = "id_movimiento", insertable = false, updatable = false)
+    private Movimiento movimiento;
+
+
 
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_creacion", updatable = false)
