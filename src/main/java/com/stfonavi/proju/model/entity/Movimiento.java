@@ -34,11 +34,25 @@ public class Movimiento implements Serializable {
 
     @NotNull(message = "El campo etapa procesal no puede estar en blanco")
     @Column(name = "ID_ETAPA")
-    private long idEtapaProcesal;
+    private Long idEtapaProcesal;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ETAPA", referencedColumnName = "ID_ETAPA", insertable = false, updatable = false)
     private EtapaProcesal etapaProcesal;
+
+
+    @NotNull(message = "EL campo contigencia no puede estar en blanco")
+    @Column(name="id_contigencia")
+    private Long idContigencia;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name="id_contingencia", referencedColumnName = "id_contingencia", insertable = false, updatable = false)
+    private TipoContigencia tipoContigencia;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_expediente")
+    private ProcesoJudiciales procesoJudicial;
+
 
 
     @Temporal(TemporalType.DATE)

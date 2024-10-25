@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class JuzgadoServiceImpl implements IJuzgadoService {
 
@@ -19,6 +21,11 @@ public class JuzgadoServiceImpl implements IJuzgadoService {
     @Transactional(readOnly = true)
     public Page<Juzgado> findAll(Pageable pageable) {
         return juzgadoDao.obtenerTodos(pageable);
+    }
+
+    @Override
+    public List<Juzgado> ListarTodos() {
+        return (List<Juzgado>) juzgadoDao.findAll();
     }
 
     @Override

@@ -29,7 +29,7 @@ public class TipoContigencia implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_CONTINGENCIA")
+    @Column(name = "id_contingencia")
     private long idTipoContigencia;
 
     @Column(name="NOMBRE")

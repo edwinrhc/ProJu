@@ -12,7 +12,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +28,7 @@ public class ProcesoJudiciales implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_expediente")
+    @Column(name="id_proceso_judicial")
     private long idProcesoJudicial;
 
 
@@ -61,30 +63,14 @@ public class ProcesoJudiciales implements Serializable {
 
     @NotNull(message = "El campo juzgado no puede estar en blanco ")
     @Column(name="id_juzgado")
-    private long idJuzgado;
+    private Long idJuzgado;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name="id_juzgado", referencedColumnName = "id_juzgado", insertable = false, updatable = false)
     private Juzgado juzgado;
 
-
-    @NotNull(message = "EL campo contigencia no puede estar en blanco")
-    @Column(name="id_contigencia")
-    private long idContigencia;
-
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name="id_contigencia", referencedColumnName = "id_contingencia", insertable = false, updatable = false)
-    private TipoContigencia tipoContigencia;
-
-    @NotNull(message = "El campo  no puede estar en blanco")
-    @Column(name="id_movimiento")
-    private long idMovimiento;
-
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name="id_movimiento", referencedColumnName = "id_movimiento", insertable = false, updatable = false)
-    private Movimiento movimiento;
-
-
+    @OneToMany(mappedBy = "procesoJudicial", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Movimiento> movimientos = new ArrayList<>();
 
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_creacion", updatable = false)

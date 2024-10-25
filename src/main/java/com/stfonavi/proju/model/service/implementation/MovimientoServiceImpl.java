@@ -51,4 +51,14 @@ public class MovimientoServiceImpl implements IMovimientoService {
         }
 
     }
+
+    @Override
+    public List<Movimiento> obtenerMovimientos(long idProcesoJudicial) {
+        try {
+            return movimientoDao.findByProcesoJudicial_IdProcesoJudicial(idProcesoJudicial);
+        } catch (Exception e) {
+            logger.error("Error al encontrar el Proceso Judicial - id " + idProcesoJudicial, e);
+            return null;
+        }
+    }
 }

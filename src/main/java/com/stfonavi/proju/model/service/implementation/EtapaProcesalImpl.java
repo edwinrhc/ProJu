@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class EtapaProcesalImpl implements IEtapaProcesalService {
 
@@ -17,6 +19,11 @@ public class EtapaProcesalImpl implements IEtapaProcesalService {
     @Override
     public Page<EtapaProcesal> findAll(Pageable pageable) {
         return  etapaProcesalDao.obtenerTodos(pageable);
+    }
+
+    @Override
+    public List<EtapaProcesal> ListarTodos() {
+        return (List<EtapaProcesal>) etapaProcesalDao.findAll();
     }
 
     @Override

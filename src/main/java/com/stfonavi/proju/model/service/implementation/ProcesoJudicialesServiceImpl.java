@@ -1,6 +1,7 @@
 package com.stfonavi.proju.model.service.implementation;
 
 import com.stfonavi.proju.model.dao.IProcesoJudicialesDao;
+import com.stfonavi.proju.model.entity.Movimiento;
 import com.stfonavi.proju.model.entity.ProcesoJudiciales;
 import com.stfonavi.proju.model.service.interfaces.IProcesoJudicialesService;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
@@ -53,4 +56,5 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
             throw e;
         }
     }
+
 }

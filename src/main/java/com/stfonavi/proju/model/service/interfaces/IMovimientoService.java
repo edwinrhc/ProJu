@@ -12,4 +12,6 @@ public interface IMovimientoService {
 
     Movimiento findOne(Long id);
 
+    List<Movimiento> obtenerMovimientos(long idProcesoJudicial);
+
 }
