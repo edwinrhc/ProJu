@@ -1,5 +1,6 @@
 package com.stfonavi.proju.model.service.implementation;
 
+import com.stfonavi.proju.dto.MovimientoDetailDTO;
 import com.stfonavi.proju.model.dao.IMovimientoDao;
 import com.stfonavi.proju.model.entity.Movimiento;
 import com.stfonavi.proju.model.service.interfaces.IMovimientoService;
@@ -63,7 +64,7 @@ public class MovimientoServiceImpl implements IMovimientoService {
     }
 
     @Override
-    public List<Object[]> getMovimientoDetailsByProcesoJudicialId(Long idProcesoJudicial) {
+    public List<MovimientoDetailDTO> getMovimientoDetailsByProcesoJudicialId(Long idProcesoJudicial) {
         return movimientoDao.findMovimientoDetailsByProcesoJudicialId(idProcesoJudicial);
     }
 }

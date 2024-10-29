@@ -133,13 +133,31 @@
                         <th class="px-4 py-2">Nombre</th>
                         <th class="px-4 py-2">Etapa Procesal</th>
                         <th class="px-4 py-2">Estado</th>
+                        <th class="px-4 py-2">Creado</th>
+                        <th class="px-4 py-2">Creado por</th>
+                        <th class="px-4 py-2">Modificado</th>
+                        <th class="px-4 py-2">Modificado por</th>
+                        <th class="px-4 py-2"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="movimiento : ${movimientoDetails}">
-                        <td class="border px-4 py-2" th:text="${movimiento[0]}"></td>
-                        <td class="border px-4 py-2" th:text="${movimiento[1]}"></td>
-                        <td class="border px-4 py-2" th:text="${movimiento[2]}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.nombre}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.idEtapaProcesal}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.idContingencia}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.createdAt}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.createdBy}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.updatedAt}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.updatedBy}"></td>
+                        <td class="py-2 px-4 border-b text-center">
+<!--                            th:href="@{'/procesoJudiciales/details/' + ${procesoJud.idProcesoJudicial}}"-->
+                            <a   href="#"
+                                 class="text-sm bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                <!--                        Editar-->
+                            </a>
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>

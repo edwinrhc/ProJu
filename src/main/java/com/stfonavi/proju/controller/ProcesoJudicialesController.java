@@ -1,5 +1,6 @@
 package com.stfonavi.proju.controller;
 
+import com.stfonavi.proju.dto.MovimientoDetailDTO;
 import com.stfonavi.proju.model.entity.Juzgado;
 import com.stfonavi.proju.model.entity.ProcesoJudiciales;
 import com.stfonavi.proju.model.service.interfaces.IJuzgadoService;
@@ -127,7 +128,7 @@ public class ProcesoJudicialesController {
 
             boton = Constantes.botonEditar;
 
-            List<Object[]> movimientoDetails = movimientoService.getMovimientoDetailsByProcesoJudicialId(id);
+            List<MovimientoDetailDTO> movimientoDetails = movimientoService.getMovimientoDetailsByProcesoJudicialId(id);
 
             if (movimientoDetails.isEmpty()) {
                 model.put("mensaje", "No se encontraron movimientos para el proceso judicial");
