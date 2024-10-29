@@ -26,33 +26,30 @@
                 <th class="py-2 px-4 border-b">TIPO MONEDA</th>
                 <th class="py-2 px-4 border-b">DEMANDANTE</th>
                 <th class="py-2 px-4 border-b">DEMANDADO</th>
-<!--                <th class="py-2 px-4 border-b">ESTADO_PROCESO</th>-->
-                <th class="py-2 px-4 border-b">ETAPA PROCESAL</th>
-                <th class="py-2 px-4 border-b">TIPO DE CONTINGENCIA</th>
                 <th class="py-2 px-4 border-b">ABOGADO</th>
-                <th class="py-2 px-4 border-b">Editar</th>
+                <th class="py-2 px-4 border-b">Ver Detalles</th>
             </tr>
             </thead>
             <tbody>
             <!-- Fila de ejemplo, agrega más filas según sea necesario -->
-            <tr class="hover:bg-gray-100">
-                <td class="py-2 px-4 border-b">60054-05</td>
-                <td class="py-2 px-4 border-b">Otorgamiento de escritura pública</td>
-                <td class="py-2 px-4 border-b">00</td>
-                <td class="py-2 px-4 border-b">S/.</td>
-                <td class="py-2 px-4 border-b">Juan Pérez</td>
-                <td class="py-2 px-4 border-b">MEF / COLFONAVI</td>
-<!--                <td class="py-2 px-4 border-b relative group">-->
-<!--                        Por Res. 44 de fecha 05.08.2011 se ordena cumplir lo ejecutoriado.-->
-<!--                    <a href="#" class="text-blue-500 hover:underline">  <span class="text-gray-600">...ver más </span>-->
-<!--                   </a>-->
-<!--                </td>-->
-                <td class="py-2 px-4 border-b">EN EJECUCIÓN</td>
-                <td class="py-2 px-4 border-b">REMOTO</td>
-                <td class="py-2 px-4 border-b">DIANA</td>
-                <td class="py-2 px-4 border-b">EDITAR</td>
+            <tr th:each="procesoJud, procesoJudicialesIndex: ${procesoJudicialesList}" class="hover:bg-gray-100">
+                <td class="py-2 px-4 border-b" th:text="${procesoJud.numExpediente}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesoJud.materia}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesoJud.monto}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesoJud.tipoMoneda}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesoJud.demandante}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesoJud.demandado}"></td>
+                <td class="py-2 px-4 border-b" th:text="${procesoJud.abogado}"></td>
+                <td class="py-2 px-4 border-b text-center">
+                    <a   th:href="@{'/procesoJudiciales/details/' + ${procesoJud.idProcesoJudicial}}"
+                       class="text-sm bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        <!--                        Editar-->
+                    </a>
+                </td>
+
             </tr>
-            <!-- Agrega más filas aquí -->
+
             </tbody>
         </table>
     </div>

@@ -36,6 +36,7 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void save(ProcesoJudiciales procesoJudiciales) {
 
         try{

@@ -57,10 +57,6 @@ public class ProcesoJudiciales implements Serializable {
     @NotEmpty(message="El campo no puede estar en blanco")
     private String demandado;
 
-    @Column(name="abogado")
-    @NotEmpty(message="El campo no puede estar en blanco")
-    private String abogado;
-
     @NotNull(message = "El campo juzgado no puede estar en blanco ")
     @Column(name="id_juzgado")
     private Long idJuzgado;
@@ -69,8 +65,12 @@ public class ProcesoJudiciales implements Serializable {
     @JoinColumn(name="id_juzgado", referencedColumnName = "id_juzgado", insertable = false, updatable = false)
     private Juzgado juzgado;
 
-    @OneToMany(mappedBy = "procesoJudicial", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Movimiento> movimientos = new ArrayList<>();
+    @Column(name="abogado")
+    @NotEmpty(message="El campo no puede estar en blanco")
+    private String abogado;
+
+//    @OneToMany(mappedBy = "procesoJudicial", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Movimiento> movimientos = new ArrayList<>();
 
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_creacion", updatable = false)

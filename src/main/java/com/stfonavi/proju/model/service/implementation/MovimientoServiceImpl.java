@@ -61,4 +61,9 @@ public class MovimientoServiceImpl implements IMovimientoService {
             return null;
         }
     }
+
+    @Override
+    public List<Object[]> getMovimientoDetailsByProcesoJudicialId(Long idProcesoJudicial) {
+        return movimientoDao.findMovimientoDetailsByProcesoJudicialId(idProcesoJudicial);
+    }
 }

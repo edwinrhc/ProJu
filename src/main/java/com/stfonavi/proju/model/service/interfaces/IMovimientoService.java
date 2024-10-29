@@ -14,4 +14,6 @@ public interface IMovimientoService {
 
     List<Movimiento> obtenerMovimientos(long idProcesoJudicial);
 
+    List<Object[]> getMovimientoDetailsByProcesoJudicialId(Long idProcesoJudicial);
+
 }

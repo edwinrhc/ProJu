@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="uap_movimiento")
+@Table(name = "uap_movimiento")
 public class Movimiento implements Serializable {
 
     @Serial
@@ -28,58 +28,53 @@ public class Movimiento implements Serializable {
     @Column(name = "ID_MOVIMIENTO")
     private long idMovimiento;
 
-    @Column(name="NOMBRE")
-    @NotEmpty(message = "El campo  no puede estar en blanco")
+    @Column(name = "NOMBRE")
+    @NotEmpty(message = "El campo nombre no puede estar en blanco")
     private String nombre;
 
     @NotNull(message = "El campo etapa procesal no puede estar en blanco")
     @Column(name = "ID_ETAPA")
     private Long idEtapaProcesal;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_ETAPA", referencedColumnName = "ID_ETAPA", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_ETAPA", insertable = false, updatable = false)
     private EtapaProcesal etapaProcesal;
 
-
-    @NotNull(message = "EL campo contigencia no puede estar en blanco")
-    @Column(name="id_contigencia")
+    @NotNull(message = "El campo contingencia no puede estar en blanco")
+    @Column(name = "ID_CONTINGENCIA")
     private Long idContigencia;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name="id_contingencia", referencedColumnName = "id_contingencia", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CONTINGENCIA", insertable = false, updatable = false)
     private TipoContigencia tipoContigencia;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_expediente")
+    @JoinColumn(name = "ID_PROCESO_JUDICIAL")
     private ProcesoJudiciales procesoJudicial;
 
-
-
     @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_creacion", updatable = false)
+    @Column(name = "FECHA_CREACION", updatable = false)
     private Date createdAt;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_actualizada")
+    @Column(name = "FECHA_ACTUALIZADA")
     private Date updatedAt;
 
     @CreatedBy
-    @Column(name = "creado_por", updatable = false)
+    @Column(name = "CREADO_POR", updatable = false)
     private String createdBy;
 
     @LastModifiedBy
-    @Column(name = "actualizado_por")
+    @Column(name = "ACTUALIZADO_POR")
     private String updatedBy;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         createdAt = new Date();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         updatedAt = new Date();
     }
-
-
 }
