@@ -52,6 +52,9 @@ public class Movimiento implements Serializable {
     @JoinColumn(name = "ID_PROCESO_JUDICIAL")
     private ProcesoJudiciales procesoJudicial;
 
+    //TODO: Agregar el ID Procesal
+
+
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_CREACION", updatable = false)
     private Date createdAt;

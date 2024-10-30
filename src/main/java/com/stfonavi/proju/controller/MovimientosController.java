@@ -1,18 +1,21 @@
 package com.stfonavi.proju.controller;
 
 import com.stfonavi.proju.dto.MovimientoDetailDTO;
+import com.stfonavi.proju.model.entity.EtapaProcesal;
 import com.stfonavi.proju.model.entity.Movimiento;
-import com.stfonavi.proju.model.service.interfaces.IJuzgadoService;
-import com.stfonavi.proju.model.service.interfaces.IMovimientoService;
-import com.stfonavi.proju.model.service.interfaces.IProcesoJudicialesService;
+import com.stfonavi.proju.model.entity.TipoContigencia;
+import com.stfonavi.proju.model.service.interfaces.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //@Controller
@@ -28,6 +31,12 @@ public class MovimientosController {
 
     @Autowired
     private IJuzgadoService juzgadoService;
+
+    @Autowired
+    private IEtapaProcesalService etapaProcesalService;
+
+    @Autowired
+    private ITipoContigenciaService tipoContigenciaService;
 
     @Autowired
     private IMovimientoService movimientoService;
@@ -53,6 +62,7 @@ public class MovimientosController {
 
         // Convierte la entidad Movimiento a MovimientoDTO
         MovimientoDetailDTO dto = new MovimientoDetailDTO();
+
         dto.setIdMovimiento(movimiento.getIdMovimiento());
         dto.setNombre(movimiento.getNombre());
         dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
@@ -61,10 +71,30 @@ public class MovimientosController {
     }
 
 
+
+
     @GetMapping("/get")
-    public ResponseEntity<MovimientoDetailDTO> getMostrarForm() {
+    public ResponseEntity<Map<String,Object>> getMostrarForm(){
         MovimientoDetailDTO dto = new MovimientoDetailDTO(); // Objeto vacío para datos nuevos
-        return ResponseEntity.ok(dto);
+        List<EtapaProcesal> etapaProcesales = etapaProcesalService.ListarTodos();
+        List<TipoContigencia> tipoContigencia = tipoContigenciaService.findAll();
+
+        // Preparamos el map
+        Map<String, Object>reponse = new HashMap<>();
+        reponse.put("movimiento",dto);
+        reponse.put("etapaProcesales",etapaProcesales);
+        reponse.put("tipoContigencia",tipoContigencia);
+
+        return ResponseEntity.ok(reponse);
+    }
+    @PostMapping("/create")
+    public ResponseEntity<String> crearMovimiento(@RequestBody MovimientoDetailDTO movimientoDetailDTO){
+       try{
+        movimientoService.guardarMovimiento(movimientoDetailDTO);
+        return ResponseEntity.ok("Movimiento creado");
+       }catch (Exception e){
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage() + "Error al crear el movimiento");
+       }
     }
 
 

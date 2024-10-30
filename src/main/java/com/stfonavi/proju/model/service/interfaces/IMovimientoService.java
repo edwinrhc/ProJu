@@ -11,6 +11,8 @@ public interface IMovimientoService {
 
     void save(Movimiento movimiento);
 
+    void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO);
+
     Movimiento findOne(Long id);
 
     List<Movimiento> obtenerMovimientos(long idProcesoJudicial);

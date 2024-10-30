@@ -118,6 +118,8 @@ public class ProcesoJudicialesController {
         return "redirect:/procesoJudiciales/view";
     }
 
+
+
     @GetMapping("/details/{id}")
     public String editar(@PathVariable(value = "id")Long id, Map<String,Object> model, RedirectAttributes flash){
 

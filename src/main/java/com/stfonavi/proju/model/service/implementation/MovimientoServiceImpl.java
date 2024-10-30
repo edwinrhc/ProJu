@@ -43,6 +43,16 @@ public class MovimientoServiceImpl implements IMovimientoService {
     }
 
     @Override
+    public void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO) {
+        Movimiento movimiento = new Movimiento();
+        movimiento.setNombre(movimientoDetailDTO.getNombre());
+        movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
+        movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
+
+        movimientoDao.save(movimiento);
+    }
+
+    @Override
     public Movimiento findOne(Long id) {
         try {
             return movimientoDao.findById(id).orElse(null);

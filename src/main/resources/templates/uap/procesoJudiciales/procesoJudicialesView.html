@@ -27,7 +27,8 @@
                 <th class="py-2 px-4 border-b">DEMANDANTE</th>
                 <th class="py-2 px-4 border-b">DEMANDADO</th>
                 <th class="py-2 px-4 border-b">ABOGADO</th>
-                <th class="py-2 px-4 border-b">Ver Detalles</th>
+                <th class="py-2 px-4 border-b"></th>
+                <th class="py-2 px-4 border-b">Movimientos</th>
             </tr>
             </thead>
             <tbody>
@@ -40,6 +41,13 @@
                 <td class="py-2 px-4 border-b" th:text="${procesoJud.demandante}"></td>
                 <td class="py-2 px-4 border-b" th:text="${procesoJud.demandado}"></td>
                 <td class="py-2 px-4 border-b" th:text="${procesoJud.abogado}"></td>
+                <td class="py-2 px-4 border-b text-center">
+                    <a href="javascript:void(0);"
+                       th:onclick="'abriModalProcesoJudicial(' + ${procesoJud.idProcesoJudicial}+ ')'"
+                       class="text-sm bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+                </td>
                 <td class="py-2 px-4 border-b text-center">
                     <a   th:href="@{'/procesoJudiciales/details/' + ${procesoJud.idProcesoJudicial}}"
                        class="text-sm bg-indigo-600 hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
@@ -57,7 +65,28 @@
 
 
 
+    <!-- Modal -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden" id="modalProcesoJudiciales"
+         role="dialog" aria-hidden="true">
+        <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-4">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-4 py-2 border-b">
+                <h5 class="text-lg font-semibold">Editar Proceso Judiciales</h5>
+                <button type="button" class="text-gray-500 hover:text-gray-700" onclick="cerrarModal()">
+                    <span class="text-2xl">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div id="modalProcesoJudicialesContent" class="px-4 py-3">
+                <!-- Aquí se cargará el contenido dinámico -->
+            </div>
+
+        </div>
+    </div>
+
 </div>
 </body>
+<script src="/js/procesoJudiciales/procesoJudiciales.js"></script>
 <footer th:replace="fragments/footer :: footer" class="bg-gray-800 text-white py-4"></footer>
 </html>

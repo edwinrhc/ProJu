@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TipoContigenciaServiceImpl implements ITipoContigenciaService {
 
@@ -17,6 +19,11 @@ public class TipoContigenciaServiceImpl implements ITipoContigenciaService {
     @Override
     public Page<TipoContigencia> findAll(Pageable pageable) {
         return tipoContigenciaDao.obtenerTodos(pageable);
+    }
+
+    @Override
+    public List<TipoContigencia> findAll() {
+        return (List<TipoContigencia>) tipoContigenciaDao.findAll();
     }
 
     @Override
