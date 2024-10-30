@@ -11,6 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class MovimientoDetailDTO {
 
+    private Long idMovimiento;
     private String nombre;
     private Long idEtapaProcesal;
     private Long idContingencia;

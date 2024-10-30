@@ -73,11 +73,18 @@ public class ProcesoJudicialesController {
 
 
     @GetMapping("/get")
-    public String mostrarForm(Map<String,Object> model){
+    public String mostrarForm(@RequestParam(value="id", required = false) Long id, Map<String,Object> model){
 
 
         List<Juzgado> Listjuzgados = juzgadoService.ListarTodos();
         ProcesoJudiciales procesoJudiciales = new ProcesoJudiciales();
+
+        // Verificamos
+        if(id == null){
+            List<MovimientoDetailDTO> movimientoDetails = movimientoService.getMovimientoDetailsByProcesoJudicialId(id);
+            model.put("mensaje", "Agrega movimientos para el proceso judicial");
+        }
+
 
 //        procesoJudiciales.setMovimientos(movimientoService.obtenerMovimientos(procesoJudiciales.getIdProcesoJudicial()));
         model.put("procesoJudiciales",procesoJudiciales);
