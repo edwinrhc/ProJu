@@ -52,7 +52,7 @@ public class Movimiento implements Serializable {
     @JoinColumn(name = "ID_PROCESO_JUDICIAL")
     private ProcesoJudiciales procesoJudicial;
 
-//    //TODO: Agregar el ID Procesal
+
 //    @NotNull(message = "El campo contingencia no puede estar en blanco")
 //    @Column(name = "ID_PROCESO_JUDICIAL", insertable = false, updatable = false)
 //    private Long idProcesoJudicial;
