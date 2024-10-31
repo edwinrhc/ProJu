@@ -11,7 +11,7 @@
 
             <h1 class="text-2xl font-bold mb-6" th:text="${ titulo + ' - Proceso Judiciales'}"></h1>
             <!-- Campo oculto para capturar el idProcesoJudiciales -->
-            <input type="hidden" id="idProcesoJudiciales" name="idProcesoJudiciales" th:value="*{idProcesoJudicial}">
+            <input type="text" id="idProcesoJudicial" th:name="idProcesoJudicial" th:value="*{idProcesoJudicial}">
 
             <!-- Campo de N° Expediente -->
             <div class="flex flex-wrap gap-4">
@@ -148,11 +148,11 @@
                     <tbody>
                     <tr th:each="movimiento : ${movimientoDetails}">
                         <td class="border px-4 py-2" th:text="${movimiento.nombre}"></td>
-                        <td class="border px-4 py-2" th:text="${movimiento.idEtapaProcesal}"></td>
-                        <td class="border px-4 py-2" th:text="${movimiento.idContingencia}"></td>
-                        <td class="border px-4 py-2" th:text="${movimiento.createdAt}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.nombreEtapaProcesal}"></td>
+                        <td class="border px-4 py-2" th:text="${movimiento.nombreContingencia}"></td>
+                        <td class="border px-4 py-2" th:text="${#dates.format(movimiento.createdAt, 'dd/MM/yyyy')}"></td>
                         <td class="border px-4 py-2" th:text="${movimiento.createdBy}"></td>
-                        <td class="border px-4 py-2" th:text="${movimiento.updatedAt}"></td>
+                        <td class="border px-4 py-2" th:text="${#dates.format(movimiento.updatedAt, 'dd/MM/yyyy')}"></td>
                         <td class="border px-4 py-2" th:text="${movimiento.updatedBy}"></td>
                         <td class="py-2 px-4 border-b text-center">
                             <a href="javascript:void(0);"
@@ -171,7 +171,9 @@
                 <button type="submit"
                         class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
                         th:text="${boton}">
+
                 </button>
+
                 <a th:href="@{/procesoJudiciales/view}"
                    class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-200">
                     Regresar

@@ -1,3 +1,12 @@
+//Variable globales
+const idProcesoJudicial = $("#idProcesoJudicial").val();
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 function abrirModalNuevoMovimiento() {
     $.ajax({
         url: '/movimientos/get',
@@ -13,6 +22,8 @@ function abrirModalNuevoMovimiento() {
                 <form id="movimientoForm" style="max-width: 400px;">
                         <h4 class="text-2xl font-bold mb-6">Nuevo Movimiento</h4>
                     <div class="mb-4">
+                        <input type="text" name="idProcesoJudicial" value="${idProcesoJudicial}"> <!-- Campo oculto para idProcesoJudiciales -->
+                           
                         <label for="nombre" class="block font-semibold">Nombre:</label>
                         <textarea id="nombre" name="nombre" class="w-full p-2 border rounded" rows="3"></textarea>
                     </div>
@@ -47,6 +58,41 @@ function abrirModalNuevoMovimiento() {
         }
     })
 }
+function submitForm() {
+    const movimientoData = {
+        idProcesoJudicial,
+        nombre: $("#nombre").val(),
+        idEtapaProcesal: $("#idEtapaProcesal").val(),
+        idContingencia: $("#idContingencia").val(),
+    };
+    // console.log(movimientoData)
+
+    // Obtener el token CSRF desde la cookie
+    const csrfToken = getCookie('XSRF-TOKEN');
+    const csrfHeader = 'X-XSRF-TOKEN';
+
+    // console.log("csrfHeader ->: ", csrfHeader);
+    // console.log("csrfToken ->: ", csrfToken);
+
+    $.ajax({
+        url: '/movimientos/create',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(movimientoData),
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(response) {
+            alert("Movimiento creado exitosamente");
+            cerrarModal();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", xhr.responseText);
+            alert("Error al crear el movimiento: " + xhr.responseText);
+        }
+    });
+}
+
 
 function abrirModalMovimiento(idMovimiento) {
     $.ajax({
@@ -59,7 +105,7 @@ function abrirModalMovimiento(idMovimiento) {
     <form id="movimientoForm" style="max-width: 400px;">
     
      <!-- Campo oculto para idProcesoJudiciales -->
-            <input type="hidden" id="idProcesoJudiciales" name="idProcesoJudiciales" value="${data.idProcesoJudiciales}">
+<!--            <input type="text" id="idProcesoJudiciales" name="idProcesoJudiciales" value="${data.idProcesoJudicial}">-->
     
         <div class="mb-4">
             <label for="nombre" class="block font-semibold">Nombre:</label>
@@ -237,26 +283,6 @@ function abriModalProcesoJudicial(idProcesoJudicales) {
 */
 
 
-function submitForm(){
-    const movimientoData = {
-        nombre: $("#nombre").val(),
-        idEtapaProcesal: $("#idEtapaProcesal").val(),
-        idContingencia: $("#idContingencia").val(),
-    };
-    $.ajax({
-        url: '/movimientos/create', // URL del nuevo endpoint
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(movimientoData),
-        success: function(response) {
-            alert("Movimiento creado exitosamente");
-            cerrarModal();
-        },
-        error: function(xhr, status, error) {
-            alert("Error al crear el movimiento.");
-        }
-    });
-}
 
 
 function cerrarModal() {

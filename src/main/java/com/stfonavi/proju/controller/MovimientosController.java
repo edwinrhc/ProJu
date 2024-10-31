@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 //@Controller
-@RestController
 @SessionAttributes("movimientos")
+@RestController
 @RequestMapping("/movimientos")
 public class MovimientosController {
 
@@ -66,6 +66,7 @@ public class MovimientosController {
         dto.setIdMovimiento(movimiento.getIdMovimiento());
         dto.setNombre(movimiento.getNombre());
         dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
+//        dto.setIdProcesoJudicial(movimiento.getIdProcesoJudicial());
 
         return ResponseEntity.ok(dto);
     }
@@ -88,13 +89,14 @@ public class MovimientosController {
         return ResponseEntity.ok(reponse);
     }
     @PostMapping("/create")
-    public ResponseEntity<String> crearMovimiento(@RequestBody MovimientoDetailDTO movimientoDetailDTO){
-       try{
-        movimientoService.guardarMovimiento(movimientoDetailDTO);
-        return ResponseEntity.ok("Movimiento creado");
-       }catch (Exception e){
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage() + "Error al crear el movimiento");
-       }
+    public ResponseEntity<?> crearMovimiento(@RequestBody MovimientoDetailDTO movimientoDetailDTO){
+        System.out.println("Movimientos ->" + movimientoDetailDTO);
+        try{
+            movimientoService.guardarMovimiento(movimientoDetailDTO);
+            return ResponseEntity.ok("Movimiento creado");
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage() + " Error al crear el movimiento");
+        }
     }
 
 

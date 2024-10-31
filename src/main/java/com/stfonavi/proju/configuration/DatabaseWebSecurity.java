@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -33,7 +34,12 @@ public class DatabaseWebSecurity {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .csrf()
+//                .disable()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
+                .authorizeRequests()
                 .antMatchers("/js/**", "/public/**", "/css/**","DataTables/**").permitAll()
 //                .antMatchers("/rol/**", "/usuarios/**", "/equipos/**", "/rolesAsignados/**", "/rol/**"
 //                        ,"/solicitudes/listar","/solicitudes/asignados").hasAnyAuthority("ADMINISTRADOR")
@@ -42,6 +48,9 @@ public class DatabaseWebSecurity {
 //                .antMatchers("/solicitudes/listarAsignados","/tipoApp/**,/controlrequerimiento/**").hasAnyAuthority("ASIGNADO","ADMINISTRADOR")
                 .antMatchers("/error","/error/**").permitAll() // Permitir acceso a las páginas de error
                 .anyRequest().authenticated() // Restringe todas las demás rutas a usuarios autenticados
+                .and()
+                // Habilitar autenticación básica HTTP
+                .httpBasic()
                 .and()
                 .formLogin().loginPage("/login")
                 .permitAll()

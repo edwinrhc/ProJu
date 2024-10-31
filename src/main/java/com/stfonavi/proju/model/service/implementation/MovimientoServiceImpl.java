@@ -1,8 +1,14 @@
 package com.stfonavi.proju.model.service.implementation;
 
 import com.stfonavi.proju.dto.MovimientoDetailDTO;
+import com.stfonavi.proju.model.dao.IEtapaProcesalDao;
 import com.stfonavi.proju.model.dao.IMovimientoDao;
+import com.stfonavi.proju.model.dao.IProcesoJudicialesDao;
+import com.stfonavi.proju.model.dao.ITipoContigenciaDao;
+import com.stfonavi.proju.model.entity.EtapaProcesal;
 import com.stfonavi.proju.model.entity.Movimiento;
+import com.stfonavi.proju.model.entity.ProcesoJudiciales;
+import com.stfonavi.proju.model.entity.TipoContigencia;
 import com.stfonavi.proju.model.service.interfaces.IMovimientoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovimientoServiceImpl implements IMovimientoService {
@@ -19,6 +27,15 @@ public class MovimientoServiceImpl implements IMovimientoService {
 
     @Autowired
     private IMovimientoDao movimientoDao;
+
+    @Autowired
+    private IProcesoJudicialesDao procesoJudicialDao;
+
+    @Autowired
+    private IEtapaProcesalDao etapaProcesalDao;
+
+    @Autowired
+    private ITipoContigenciaDao tipoContigenciaDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -43,12 +60,18 @@ public class MovimientoServiceImpl implements IMovimientoService {
     }
 
     @Override
+    @Transactional
     public void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO) {
         Movimiento movimiento = new Movimiento();
         movimiento.setNombre(movimientoDetailDTO.getNombre());
         movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
         movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
+//        movimiento.setIdProcesoJudicial(movimientoDetailDTO.getIdProcesoJudicial());
+        // Obtener y establecer la relación con ProcesoJudiciales
+        ProcesoJudiciales procesoJudicial = procesoJudicialDao.findById(movimientoDetailDTO.getIdProcesoJudicial())
+                .orElseThrow(() -> new IllegalArgumentException("Proceso Judicial no encontrado"));
 
+        movimiento.setProcesoJudicial(procesoJudicial);
         movimientoDao.save(movimiento);
     }
 
@@ -75,6 +98,34 @@ public class MovimientoServiceImpl implements IMovimientoService {
 
     @Override
     public List<MovimientoDetailDTO> getMovimientoDetailsByProcesoJudicialId(Long idProcesoJudicial) {
-        return movimientoDao.findMovimientoDetailsByProcesoJudicialId(idProcesoJudicial);
+        List<Movimiento> movimientos = movimientoDao.findByProcesoJudicial_IdProcesoJudicial(idProcesoJudicial);
+        List<MovimientoDetailDTO>movimientoDetails = new ArrayList<>();
+
+        for(Movimiento movimiento: movimientos){
+            MovimientoDetailDTO dto = new MovimientoDetailDTO();
+            dto.setIdMovimiento(movimiento.getIdMovimiento());
+            dto.setNombre(movimiento.getNombre());
+
+            dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
+            dto.setIdContingencia(movimiento.getIdContigencia());
+
+            // Obtener y establecer los nombres
+            Optional<EtapaProcesal> etapa = etapaProcesalDao.findById(movimiento.getIdEtapaProcesal());
+            etapa.ifPresent(e -> dto.setNombreEtapaProcesal(e.getNombre()));
+
+
+            Optional<TipoContigencia> contigencia = tipoContigenciaDao.findById(movimiento.getIdContigencia());
+            contigencia.ifPresent(c -> dto.setNombreContingencia(c.getNombre()));
+
+            dto.setCreatedAt(movimiento.getCreatedAt());
+            dto.setCreatedBy(movimiento.getCreatedBy());
+            dto.setUpdatedAt(movimiento.getUpdatedAt());
+            dto.setUpdatedBy(movimiento.getUpdatedBy());
+
+            dto.setIdProcesoJudicial(movimiento.getProcesoJudicial().getIdProcesoJudicial());
+            movimientoDetails.add(dto);
+
+        }
+        return movimientoDetails;
     }
 }
