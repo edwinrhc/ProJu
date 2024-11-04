@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +73,19 @@ public class MovimientoServiceImpl implements IMovimientoService {
                 .orElseThrow(() -> new IllegalArgumentException("Proceso Judicial no encontrado"));
 
         movimiento.setProcesoJudicial(procesoJudicial);
+        movimientoDao.save(movimiento);
+    }
+
+    @Override
+    @Transactional
+    public void updateMovimiento(MovimientoDetailDTO movimientoDetailDTO) {
+
+        Movimiento movimiento = movimientoDao.findById(movimientoDetailDTO.getIdMovimiento())
+                .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado con ID: " + movimientoDetailDTO.getIdMovimiento()));
+        // Actualizar los campos del movimiento
+        movimiento.setNombre(movimientoDetailDTO.getNombre());
+        movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
+        movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
         movimientoDao.save(movimiento);
     }
 

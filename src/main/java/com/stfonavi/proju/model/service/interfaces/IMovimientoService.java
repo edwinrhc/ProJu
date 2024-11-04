@@ -13,6 +13,8 @@ public interface IMovimientoService {
 
     void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO);
 
+    void updateMovimiento(MovimientoDetailDTO movimientoDetailDTO);
+
     Movimiento findOne(Long id);
 
     List<Movimiento> obtenerMovimientos(long idProcesoJudicial);

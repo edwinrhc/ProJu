@@ -1,6 +1,7 @@
 package com.stfonavi.proju.controller;
 
 import com.stfonavi.proju.dto.MovimientoDetailDTO;
+import com.stfonavi.proju.dto.ProcesoJudicialesDTO;
 import com.stfonavi.proju.model.entity.Juzgado;
 import com.stfonavi.proju.model.entity.ProcesoJudiciales;
 import com.stfonavi.proju.model.service.interfaces.IJuzgadoService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,24 +77,40 @@ public class ProcesoJudicialesController {
 
     @GetMapping("/get")
     public String mostrarForm(@RequestParam(value="id", required = false) Long id, Map<String,Object> model){
-
-
         List<Juzgado> Listjuzgados = juzgadoService.ListarTodos();
         ProcesoJudiciales procesoJudiciales = new ProcesoJudiciales();
-
         // Verificamos
         if(id == null){
             List<MovimientoDetailDTO> movimientoDetails = movimientoService.getMovimientoDetailsByProcesoJudicialId(id);
             model.put("mensaje", "Agrega movimientos para el proceso judicial");
         }
-
-
 //        procesoJudiciales.setMovimientos(movimientoService.obtenerMovimientos(procesoJudiciales.getIdProcesoJudicial()));
         model.put("procesoJudiciales",procesoJudiciales);
         model.put("Listjuzgados",Listjuzgados);
         model.put("boton", Constantes.botonNuevo);
         model.put("titulo",Constantes.registroForm);
         return "uap/procesoJudiciales/formProcesoJudiciales";
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ProcesoJudicialesDTO> getFindOne(@PathVariable(value = "id") Long id) {
+        ProcesoJudiciales procesoJudiciales = procesoJudicialesService.findOne(id);
+        if(procesoJudiciales == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        ProcesoJudicialesDTO dto = new ProcesoJudicialesDTO();
+        dto.setIdProcesoJudicial(procesoJudiciales.getIdProcesoJudicial());
+        dto.setNumExpediente(procesoJudiciales.getNumExpediente());
+        dto.setMateria(procesoJudiciales.getMateria());
+        dto.setMonto(procesoJudiciales.getMonto());
+        dto.setTipoMoneda(procesoJudiciales.getTipoMoneda());
+        dto.setDemandante(procesoJudiciales.getDemandante());
+        dto.setDemandado(procesoJudiciales.getDemandado());
+        dto.setIdJuzgado(procesoJudiciales.getIdJuzgado());
+        dto.setAbogado(procesoJudiciales.getAbogado());
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("/crear")
@@ -156,5 +175,13 @@ public class ProcesoJudicialesController {
         return "uap/procesoJudiciales/formProcesoJudiciales";
     }
 
+
+    @GetMapping("/get/options")
+    public ResponseEntity<Map<String,Object>> getOptions(){
+        Map<String,Object> response = new HashMap<>();
+        List<Juzgado> juzgadosList = juzgadoService.ListarTodos();
+        response.put("juzgadosList",juzgadosList);
+        return ResponseEntity.ok(response);
+    }
 
 }

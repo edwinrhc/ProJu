@@ -42,15 +42,6 @@ public class MovimientosController {
     private IMovimientoService movimientoService;
 
 
-    //    @GetMapping("/get/{id}")
-//    public String editar(@PathVariable(value = "id")Long id, Map<String,Object> model, RedirectAttributes flash){
-//
-//        Movimiento movimiento = movimientoService.findOne(id);
-//
-//        model.put("movimiento",movimiento);
-//
-//        return  "uap/movimiento/modalMovimiento";
-//    }
     @GetMapping("/get/{id}")
     public ResponseEntity<MovimientoDetailDTO> getMovimiento(@PathVariable("id") Long id) {
         Movimiento movimiento = movimientoService.findOne(id);
@@ -66,13 +57,13 @@ public class MovimientosController {
         dto.setIdMovimiento(movimiento.getIdMovimiento());
         dto.setNombre(movimiento.getNombre());
         dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
+        dto.setNombreEtapaProcesal(movimiento.getEtapaProcesal().getNombre());
+        dto.setNombreContingencia(movimiento.getTipoContigencia().getNombre());
+//        dto.setI
 //        dto.setIdProcesoJudicial(movimiento.getIdProcesoJudicial());
 
         return ResponseEntity.ok(dto);
     }
-
-
-
 
     @GetMapping("/get")
     public ResponseEntity<Map<String,Object>> getMostrarForm(){
@@ -88,6 +79,7 @@ public class MovimientosController {
 
         return ResponseEntity.ok(reponse);
     }
+
     @PostMapping("/create")
     public ResponseEntity<?> crearMovimiento(@RequestBody MovimientoDetailDTO movimientoDetailDTO){
         System.out.println("Movimientos ->" + movimientoDetailDTO);
@@ -96,6 +88,39 @@ public class MovimientosController {
             return ResponseEntity.ok("Movimiento creado");
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage() + " Error al crear el movimiento");
+        }
+    }
+
+
+    @GetMapping("/get/options")
+    public ResponseEntity<Map<String, Object>> getOptions(){
+        Map<String,Object> response = new HashMap<>();
+        List<EtapaProcesal> etapaProcesals = etapaProcesalService.ListarTodos();
+        List<TipoContigencia> tipoContigencias = tipoContigenciaService.findAll();
+        response.put("etapaProcesals",etapaProcesals);
+        response.put("tipoContigencias",tipoContigencias);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateMovimiento(@RequestBody MovimientoDetailDTO movimientoDetailDTO){
+        try{
+            //Buscar el movimiento existente
+            Movimiento movimiento = movimientoService.findOne(movimientoDetailDTO.getIdMovimiento());
+            if(movimiento == null){
+                return ResponseEntity.notFound().build();
+            }
+            // Actualizar los campos
+            movimiento.setIdMovimiento(movimientoDetailDTO.getIdMovimiento());
+            movimiento.setNombre(movimientoDetailDTO.getNombre());
+            movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
+            movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
+
+            movimientoService.updateMovimiento(movimientoDetailDTO);
+            return ResponseEntity.ok("Movimiento actualizado");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage() + " Error al actualizar el movimiento");
         }
     }
 
