@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -173,6 +174,34 @@ public class ProcesoJudicialesController {
         model.put("titulo",Constantes.editarForm);
         model.put("boton",boton);
         return "uap/procesoJudiciales/formProcesoJudiciales";
+    }
+
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateProcesoJudicial(@RequestBody ProcesoJudicialesDTO procesoJudicialesDTO){
+        try{
+
+            ProcesoJudiciales procesoJudiciales = procesoJudicialesService.findOne(procesoJudicialesDTO.getIdProcesoJudicial());
+            if(procesoJudiciales == null){
+                return ResponseEntity.notFound().build();
+            }
+
+            procesoJudiciales.setIdProcesoJudicial(procesoJudicialesDTO.getIdProcesoJudicial());
+            procesoJudiciales.setNumExpediente(procesoJudicialesDTO.getNumExpediente());
+            procesoJudiciales.setMateria(procesoJudicialesDTO.getMateria());
+            procesoJudiciales.setTipoMoneda(procesoJudicialesDTO.getTipoMoneda());
+            procesoJudiciales.setMonto(procesoJudicialesDTO.getMonto());
+            procesoJudiciales.setDemandante(procesoJudicialesDTO.getDemandante());
+            procesoJudiciales.setDemandado(procesoJudicialesDTO.getDemandado());
+            procesoJudiciales.setAbogado(procesoJudicialesDTO.getAbogado());
+            procesoJudiciales.setIdJuzgado(procesoJudicialesDTO.getIdJuzgado());
+
+            procesoJudicialesService.updateProcesoJudicial(procesoJudicialesDTO);
+
+            return ResponseEntity.ok("Proceso judicial actualizado");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage()+ "Error al actualizar el proceso de judiciales");
+        }
     }
 
 

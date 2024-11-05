@@ -199,144 +199,6 @@ function submitEditForm() {
 }
 
 
-/*
-function abriModalProcesoJudicial(idProcesoJudicales) {
-
-
-    $.ajax({
-        url: '/procesoJudiciales/get/' + idProcesoJudicales,
-        type: 'GET',
-        dataType: 'json', // Indica que esperas recibir JSON
-        success: function (data) {
-            // Genera el contenido del modal utilizando los datos JSON recibidos
-            let content = `
-    <form th:action="@{/procesoJudiciales/crear}" th:object="${procesoJudiciales}" method="post"
-          class="bg-white p-6 rounded-lg shadow-md space-y-6 w-full max-w-full mx-auto overflow-hidden">
-
-        <h1 class="text-2xl font-bold mb-6" th:text="${titulo + ' - Proceso Judiciales'}"></h1>
-
-        <!-- Campo de N° Expediente -->
-        <div class="flex flex-wrap gap-4">
-            <div class="flex flex-col w-1/8">
-                <label for="numExpediente" class="text-gray-700 font-semibold">N° de Expediente</label>
-                <input type="text" id="numExpediente" name="numExpediente"
-                       placeholder="Ingrese el número de expediente"
-                       th:classappend="${#fields.hasErrors('numExpediente')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                       th:field="*{numExpediente}"
-                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('numExpediente')}"
-                         th:errors="*{numExpediente}"></div>
-            </div>
-
-            <!-- Campo de Materia -->
-
-            <div class="flex flex-col w-1/3">
-                <label for="materia" class="text-gray-700 font-semibold">Materia</label>
-                <input type="text" id="materia" name="materia" placeholder="Ingrese la materia"
-                       th:classappend="${#fields.hasErrors('materia')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                       th:field="*{materia}"
-                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('materia')}"
-                         th:errors="*{materia}"></div>
-            </div>
-
-            <!--   Campo de Tipo moneda -->
-            <div class="flex flex-col w-1/8">
-                <label for="tipoMoneda" class="text-gray-700 font-semibold">Tipo moneda</label>
-                <select id="tipoMoneda" name="tipoMoneda"
-                        th:classappend="${#fields.hasErrors('tipoMoneda')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                        th:field="*{tipoMoneda}"
-                        class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <option value="" selected>Seleccione</option>
-                    <option th:value="soles">Soles</option>
-                    <option th:value="dolares">Dólares</option>
-                </select>
-                <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('tipoMoneda')}"
-                     th:errors="*{tipoMoneda}"></div>
-            </div>
-
-            <div class="flex flex-col w-1/8">
-                <label for="monto" class="text-gray-700 font-semibold">Monto</label>
-                <input type="text" id="monto" name="monto" placeholder="Ingrese el monto"
-                       th:classappend="${#fields.hasErrors('monto')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                       th:field="*{monto}"
-                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('monto')}"
-                         th:errors="*{monto}"></div>
-            </div>
-
-
-            <div class="flex flex-col w-1/4">
-                <label for="monto" class="text-gray-700 font-semibold">Demandante</label>
-                <input type="text" id="demandante" name="demandante" placeholder="Ingrese el demandante"
-                       th:classappend="${#fields.hasErrors('demandante')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                       th:field="*{demandante}"
-                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('demandante')}"
-                         th:errors="*{demandante}"></div>
-            </div>
-        </div>
-
-        <div class="flex flex-wrap gap-4">
-
-            <div class="flex flex-col w-1/4">
-                <label for="monto" class="text-gray-700 font-semibold">Demandado</label>
-                <input type="text" id="demandado" name="demandado" placeholder="Ingrese el demandado"
-                       th:classappend="${#fields.hasErrors('demandado')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                       th:field="*{demandado}"
-                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('demandado')}"
-                         th:errors="*{demandado}"></div>
-            </div>
-
-
-            <div class="flex flex-col w-1/3">
-                <label for="mi-select" class="text-gray-700 font-semibold">Juzgado</label>
-                <select id="mi-select" name="idJuzgado"
-                        th:classappend="${#fields.hasErrors('idJuzgado')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                        th:field="*{idJuzgado}"
-                        class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full max-h-40 overflow-y-auto">
-
-                    <option value="" selected>Seleccione</option>
-                    <th:block th:each="juzgadoList : ${Listjuzgados}">
-                        <option th:value="${juzgadoList.idJuzgado}" th:text="${juzgadoList.nombre}"></option>
-                    </th:block>
-                </select>
-                <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('idJuzgado')}"
-                     th:errors="*{idJuzgado}"></div>
-            </div>
-
-            <div class="flex flex-col w-1/4">
-                <label for="monto" class="text-gray-700 font-semibold">Abogado</label>
-                <input type="text" id="abogado" name="abogado" placeholder="Ingrese el nombre del abogado(a)"
-                       th:classappend="${#fields.hasErrors('abogado')} ? 'border-red-500 bg-red-100' : 'border-gray-300'"
-                       th:field="*{abogado}"
-                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('abogado')}"
-                         th:errors="*{abogado}"></div>
-            </div>
-
-        </div>
-        <button type="button" onclick="abrirModalNuevoMovimiento()"
-                class="bg-green-600 text-white px-4 py-2 rounded-md">Nuevo Movimiento
-        </button> `;
-
-            $('#modalMovimientoContent').html(content); // Inserta el contenido en el modal
-            $('#modalMovimiento').removeClass('hidden'); // Muestra el modal
-
-            $('#modalMovimientoContent').html(content); // Inserta el contenido generado en el modal
-            $('#modalMovimiento').removeClass('hidden'); // Muestra el modal
-        },
-        error: function (xhr, status, error) {
-            console.error("Error:", error); // Muestra el error en la consola
-            alert("Error al cargar el detalle del movimiento.");
-        }
-    })
-
-}
-*/
-
-
 function abrirModalProcesoJudicial(idProcesoJudiciales) {
     $.ajax({
         url: '/procesoJudiciales/get/' + idProcesoJudiciales,
@@ -351,96 +213,144 @@ function abrirModalProcesoJudicial(idProcesoJudiciales) {
                     const juzgadosList = optionsData.juzgadosList;
 
                     let content = `
-    <form id="procesoJudicialesForm" style="max-width: 400px;" class="bg-white p-6 rounded-lg shadow-md space-y-6 w-full max-w-full mx-auto overflow-hidden">
+    <form id="procesoJudicialesForm" style="max-width: 800px;" class="bg-white p-6 rounded-lg shadow-md space-y-6 w-full max-w-full mx-auto overflow-hidden">
         <h4 class="text-2xl font-bold mb-6">Editar Proceso Judiciales</h4>
         
-        <!-- Campo oculto para capturar el idProcesoJudiciales -->
-        <input type="text" id="idProcesoJudicial" name="idProcesoJudicial" class="hidden">
-        
-        <!-- Campo de N° Expediente -->
-        <div class="mb-4">
-            <label for="numExpediente" class="block font-semibold">N° de Expediente</label>
-            <input type="text" id="numExpediente" name="numExpediente" placeholder="Ingrese el número de expediente"
-                   class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-            <div class="text-red-500 text-sm mt-1" id="numExpedienteError"></div>
-        </div>
+        <!-- Contenedor en Grid para organizar en columnas -->
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Campo de N° Expediente -->
+            <div class="mb-4">
+                <label for="numExpediente" class="block font-semibold">N° de Expediente</label>
+                   <input type="hidden" name="idProcesoJudicial" value="${data.idProcesoJudicial}">
+                <input type="text" id="numExpediente" name="numExpediente" placeholder="Ingrese el número de expediente" value="${data.numExpediente}"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="numExpedienteError"></div>
+            </div>
 
-        <!-- Campo de Materia -->
-        <div class="mb-4">
-            <label for="materia" class="block font-semibold">Materia</label>
-            <input type="text" id="materia" name="materia" placeholder="Ingrese la materia"
-                   class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-            <div class="text-red-500 text-sm mt-1" id="materiaError"></div>
-        </div>
+            <!-- Campo de Materia -->
+            <div class="mb-4">
+                <label for="materia" class="block font-semibold">Materia</label>
+                <input type="text" id="materia" name="materia" placeholder="Ingrese la materia" value="${data.materia}"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="materiaError"></div>
+            </div>
 
-        <!-- Campo de Tipo moneda -->
-        <div class="mb-4">
-            <label for="tipoMoneda" class="block font-semibold">Tipo moneda</label>
-            <select id="tipoMoneda" name="tipoMoneda" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                <option value="">Seleccione</option>
-                <option value="soles">Soles</option>
-                <option value="dolares">Dólares</option>
-            </select>
-            <div class="text-red-500 text-sm mt-1" id="tipoMonedaError"></div>
-        </div>
+            <!-- Campo de Tipo moneda -->
+            <div class="mb-4">
+                <label for="tipoMoneda" class="block font-semibold">Tipo moneda</label>
+                <select id="tipoMoneda" name="tipoMoneda" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                    <option value="">Seleccione</option>
+                    <option value="soles">Soles</option>
+                    <option value="dolares">Dólares</option>
+                </select>
+                <div class="text-red-500 text-sm mt-1" id="tipoMonedaError"></div>
+            </div>
 
-        <!-- Campo de Monto -->
-        <div class="mb-4">
-            <label for="monto" class="block font-semibold">Monto</label>
-            <input type="text" id="monto" name="monto" placeholder="Ingrese el monto"
-                   class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-            <div class="text-red-500 text-sm mt-1" id="montoError"></div>
-        </div>
+            <!-- Campo de Monto -->
+            <div class="mb-4">
+                <label for="monto" class="block font-semibold">Monto</label>
+                <input type="text" id="monto" name="monto" placeholder="Ingrese el monto" value="${data.monto}"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="montoError"></div>
+            </div>
 
-        <!-- Campo de Demandante -->
-        <div class="mb-4">
-            <label for="demandante" class="block font-semibold">Demandante</label>
-            <input type="text" id="demandante" name="demandante" placeholder="Ingrese el demandante"
-                   class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-            <div class="text-red-500 text-sm mt-1" id="demandanteError"></div>
-        </div>
+            <!-- Campo de Demandante -->
+            <div class="mb-4">
+                <label for="demandante" class="block font-semibold">Demandante</label>
+                <input type="text" id="demandante" name="demandante" placeholder="Ingrese el demandante"  value="${data.demandante}"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="demandanteError"></div>
+            </div>
 
-        <!-- Campo de Demandado -->
-        <div class="mb-4">
-            <label for="demandado" class="block font-semibold">Demandado</label>
-            <input type="text" id="demandado" name="demandado" placeholder="Ingrese el demandado"
-                   class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-            <div class="text-red-500 text-sm mt-1" id="demandadoError"></div>
-        </div>
+            <!-- Campo de Demandado -->
+            <div class="mb-4">
+                <label for="demandado" class="block font-semibold">Demandado</label>
+                <input type="text" id="demandado" name="demandado" placeholder="Ingrese el demandado" value="${data.demandado}"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="demandadoError"></div>
+            </div>
 
-        <!-- Campo de Juzgado -->
-        <div class="mb-4">
-            <label for="idJuzgado" class="block font-semibold">Juzgado</label>
-            <select id="idJuzgado" name="idJuzgado" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                <option value="">Seleccione</option>
-                <!-- Las opciones de juzgado se agregarán dinámicamente desde el backend -->
-            </select>
-            <div class="text-red-500 text-sm mt-1" id="idJuzgadoError"></div>
-        </div>
+            <!-- Campo de Juzgado -->
+            <div class="mb-4">
+                <label for="idJuzgado" class="block font-semibold">Juzgado</label>
+                <select id="idJuzgado" name="idJuzgado" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                    <option value="" disabled>Seleccione</option>
+                    ${juzgadosList.map(juzgado => `
+                        <option value="${juzgado.idJuzgado}" ${juzgado.idJuzgado === data.idJuzgado ? 'selected': ''}> ${juzgado.nombre}</option>
+                    `).join('')}
+                    <!-- Opciones de juzgado dinámicas -->
+                </select>
+                <div class="text-red-500 text-sm mt-1" id="idJuzgadoError"></div>
+            </div>
 
-        <!-- Campo de Abogado -->
-        <div class="mb-4">
-            <label for="abogado" class="block font-semibold">Abogado</label>
-            <input type="text" id="abogado" name="abogado" placeholder="Ingrese el nombre del abogado(a)"
-                   class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-            <div class="text-red-500 text-sm mt-1" id="abogadoError"></div>
+            <!-- Campo de Abogado -->
+            <div class="mb-4">
+                <label for="abogado" class="block font-semibold">Abogado</label>
+                <input type="text" id="abogado" name="abogado" placeholder="Ingrese el nombre del abogado(a)" value="${data.abogado}"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="abogadoError"></div>
+            </div>
         </div>
 
         <!-- Botones para guardar o cerrar el formulario -->
         <div class="flex justify-end mt-4">
-<!--            <button type="button" onclick="submitProcesoJudicialForm()" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>-->
+            <button type="button" onclick="submitEditFormProcesoJudicial()" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
             <button type="button" onclick="cerrarModalProcesoJudicial()" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cerrar</button>
         </div>
     </form>
 `;
-
 // Inserta el formulario en el contenedor del modal
                     $('#modalProcesoJudicialesContent').html(content);
                     $('#procesoJudicialesModal').removeClass('hidden'); // Muestra el modal
+
+                    $('#tipoMoneda').val(data.tipoMoneda || "");
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error al cargar las opciones:", error);
                 }
-            })
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Error al cargar los datos del proceso judicial:", error);
         }
     })
+}
+
+function submitEditFormProcesoJudicial(){
+    const procesoJudicialData = {
+        idProcesoJudicial: $("#procesoJudicialesForm input[name='idProcesoJudicial']").val(),
+        numExpediente: $('#numExpediente').val(),
+        materia: $('#materia').val(),
+        tipoMoneda: $('#tipoMoneda').val(),
+        monto: $('#monto').val(),
+        demandante: $('#demandante').val(),
+        demandado: $('#demandado').val(),
+        abogado: $('#abogado').val(),
+        idJuzgado: $('#idJuzgado').val()
+    };
+    console.log(procesoJudicialData)
+
+    const csrfToken = getCookie('XSRF-TOKEN');
+    const csrfHeader = 'X-XSRF-TOKEN';
+
+    $.ajax({
+        url:'/procesoJudiciales/update',
+        type:'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(procesoJudicialData),
+        beforeSend: function (xhr){
+            xhr.setRequestHeader(csrfHeader,csrfToken);
+        },
+        success: function (response){
+            alert('Proceso judicial actualizado exitosamente');
+            cerrarModal();
+        },
+        error: function (xhr,status,error){
+            console.log("Error: ", xhr.responseText);
+            alert("Error al actualizar el movimiento: " + xhr.responseText);
+        }
+    });
 }
 
 function cerrarModal() {
@@ -448,6 +358,6 @@ function cerrarModal() {
 }
 
 function cerrarModalProcesoJudicial() {
-    $('#procesoJudicialeslMovimiento').addClass('hidden'); // Oculta el modal
+    $('#procesoJudicialesModal').addClass('hidden'); // Oculta el modal
 }
 

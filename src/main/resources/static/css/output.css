@@ -806,6 +806,10 @@ video {
   min-width: 100%;
 }
 
+.max-w-3xl {
+  max-width: 48rem;
+}
+
 .max-w-full {
   max-width: 100%;
 }
@@ -850,6 +854,10 @@ video {
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .flex-col {
@@ -1131,6 +1139,11 @@ video {
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .py-1 {

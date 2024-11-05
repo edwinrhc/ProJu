@@ -1,5 +1,6 @@
 package com.stfonavi.proju.model.service.implementation;
 
+import com.stfonavi.proju.dto.ProcesoJudicialesDTO;
 import com.stfonavi.proju.model.dao.IProcesoJudicialesDao;
 import com.stfonavi.proju.model.entity.Movimiento;
 import com.stfonavi.proju.model.entity.ProcesoJudiciales;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -45,6 +47,27 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
             logger.error("Error al guardar el proceso judicial",e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    @Transactional
+    public void updateProcesoJudicial(ProcesoJudicialesDTO procesoJudicialesDTO) {
+
+        ProcesoJudiciales procesoJudiciales = procesoJudicialesDao.findById(procesoJudicialesDTO.getIdProcesoJudicial())
+                .orElseThrow(() -> new EntityNotFoundException("Proceso judicial no encontrado con ID: " + procesoJudicialesDTO.getIdProcesoJudicial()));
+
+        procesoJudiciales.setNumExpediente(procesoJudicialesDTO.getNumExpediente());
+        procesoJudiciales.setMateria(procesoJudicialesDTO.getMateria());
+        procesoJudiciales.setTipoMoneda(procesoJudicialesDTO.getTipoMoneda());
+        procesoJudiciales.setMonto(procesoJudicialesDTO.getMonto());
+        procesoJudiciales.setDemandante(procesoJudicialesDTO.getDemandante());
+        procesoJudiciales.setDemandado(procesoJudicialesDTO.getDemandado());
+        procesoJudiciales.setAbogado(procesoJudicialesDTO.getAbogado());
+        procesoJudiciales.setIdJuzgado(procesoJudicialesDTO.getIdJuzgado());
+
+        procesoJudicialesDao.save(procesoJudiciales);
+
+
     }
 
     @Override
