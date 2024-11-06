@@ -51,6 +51,21 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
 
     @Override
     @Transactional
+    public void guardarProcesoJudicial(ProcesoJudicialesDTO procesoJudicialesDTO) {
+        ProcesoJudiciales procesoJudiciales = new ProcesoJudiciales();
+        procesoJudiciales.setNumExpediente(procesoJudicialesDTO.getNumExpediente());
+        procesoJudiciales.setMateria(procesoJudicialesDTO.getMateria());
+        procesoJudiciales.setTipoMoneda(procesoJudicialesDTO.getTipoMoneda());
+        procesoJudiciales.setMonto(procesoJudicialesDTO.getMonto());
+        procesoJudiciales.setDemandante(procesoJudicialesDTO.getDemandante());
+        procesoJudiciales.setDemandado(procesoJudicialesDTO.getDemandado());
+        procesoJudiciales.setAbogado(procesoJudicialesDTO.getAbogado());
+
+        procesoJudicialesDao.save(procesoJudiciales);
+    }
+
+    @Override
+    @Transactional
     public void updateProcesoJudicial(ProcesoJudicialesDTO procesoJudicialesDTO) {
 
         ProcesoJudiciales procesoJudiciales = procesoJudicialesDao.findById(procesoJudicialesDTO.getIdProcesoJudicial())

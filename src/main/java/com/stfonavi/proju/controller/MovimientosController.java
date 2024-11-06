@@ -82,7 +82,6 @@ public class MovimientosController {
 
     @PostMapping("/create")
     public ResponseEntity<?> crearMovimiento(@RequestBody MovimientoDetailDTO movimientoDetailDTO){
-        System.out.println("Movimientos ->" + movimientoDetailDTO);
         try{
             movimientoService.guardarMovimiento(movimientoDetailDTO);
             return ResponseEntity.ok("Movimiento creado");

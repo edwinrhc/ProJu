@@ -14,6 +14,8 @@ public interface IProcesoJudicialesService {
 
     void save(ProcesoJudiciales procesoJudiciales);
 
+    void guardarProcesoJudicial(ProcesoJudicialesDTO procesoJudicialesDTO);
+
     void updateProcesoJudicial(ProcesoJudicialesDTO procesoJudicialesDTO);
 
     ProcesoJudiciales findOne(long id);

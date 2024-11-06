@@ -76,22 +76,35 @@ public class ProcesoJudicialesController {
     }
 
 
+//    @GetMapping("/get")
+//    public String mostrarForm(@RequestParam(value="id", required = false) Long id, Map<String,Object> model){
+//        List<Juzgado> Listjuzgados = juzgadoService.ListarTodos();
+//        ProcesoJudiciales procesoJudiciales = new ProcesoJudiciales();
+//        // Verificamos
+//        if(id == null){
+//            List<MovimientoDetailDTO> movimientoDetails = movimientoService.getMovimientoDetailsByProcesoJudicialId(id);
+//            model.put("mensaje", "Agrega movimientos para el proceso judicial");
+//        }
+////        procesoJudiciales.setMovimientos(movimientoService.obtenerMovimientos(procesoJudiciales.getIdProcesoJudicial()));
+//        model.put("procesoJudiciales",procesoJudiciales);
+//        model.put("Listjuzgados",Listjuzgados);
+//        model.put("boton", Constantes.botonNuevo);
+//        model.put("titulo",Constantes.registroForm);
+//        return "uap/procesoJudiciales/formProcesoJudiciales";
+//    }
+
     @GetMapping("/get")
-    public String mostrarForm(@RequestParam(value="id", required = false) Long id, Map<String,Object> model){
-        List<Juzgado> Listjuzgados = juzgadoService.ListarTodos();
-        ProcesoJudiciales procesoJudiciales = new ProcesoJudiciales();
-        // Verificamos
-        if(id == null){
-            List<MovimientoDetailDTO> movimientoDetails = movimientoService.getMovimientoDetailsByProcesoJudicialId(id);
-            model.put("mensaje", "Agrega movimientos para el proceso judicial");
-        }
-//        procesoJudiciales.setMovimientos(movimientoService.obtenerMovimientos(procesoJudiciales.getIdProcesoJudicial()));
-        model.put("procesoJudiciales",procesoJudiciales);
-        model.put("Listjuzgados",Listjuzgados);
-        model.put("boton", Constantes.botonNuevo);
-        model.put("titulo",Constantes.registroForm);
-        return "uap/procesoJudiciales/formProcesoJudiciales";
+    public ResponseEntity<Map<String, Object>> getMostrarForm(){
+        ProcesoJudicialesDTO dto = new ProcesoJudicialesDTO();
+        List<Juzgado> juzgado = juzgadoService.ListarTodos();
+
+        Map<String,Object> response = new HashMap<>();
+        response.put("procesoJudiciales",dto);
+        response.put("juzgado",juzgado);
+
+        return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity<ProcesoJudicialesDTO> getFindOne(@PathVariable(value = "id") Long id) {
@@ -139,6 +152,18 @@ public class ProcesoJudicialesController {
     }
 
 
+
+
+    @PostMapping("/create")
+    public ResponseEntity<?> crearProcesoJudicial(@RequestBody ProcesoJudicialesDTO procesoJudicialesDTO){
+        try{
+            procesoJudicialesService.guardarProcesoJudicial(procesoJudicialesDTO);
+            return ResponseEntity.ok("Proceso Judicial creado");
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage()+ "Error al crear el proceso judicial");
+        }
+
+    }
 
     @GetMapping("/details/{id}")
     public String editar(@PathVariable(value = "id")Long id, Map<String,Object> model, RedirectAttributes flash){

@@ -265,6 +265,109 @@ function submitEditForm() {
 }
 
 
+function abrirModalNuevoProcedimientoJudicial(){
+    $.ajax({
+        url: '/procesoJudiciales/get',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data){
+            const juzgadosList = data.juzgado;
+            let content = `
+             <form id="procesoJudicialesForm" style="max-width: 800px;" class="bg-white p-6 rounded-lg shadow-md space-y-6 w-full max-w-full mx-auto overflow-hidden">
+        <h4 class="text-2xl font-bold mb-6">Nuevo Proceso Judicial</h4>
+        
+        <!-- Contenedor en Grid para organizar en columnas -->
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Campo de N° Expediente -->
+            <div class="mb-4">
+                <label for="numExpediente" class="block font-semibold">N° de Expediente</label>
+               
+                <input type="text" id="numExpediente" name="numExpediente" placeholder="Ingrese el número de expediente"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="numExpedienteError"></div>
+            </div>
+
+            <!-- Campo de Materia -->
+            <div class="mb-4">
+                <label for="materia" class="block font-semibold">Materia</label>
+                <input type="text" id="materia" name="materia" placeholder="Ingrese la materia"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="materiaError"></div>
+            </div>
+
+            <!-- Campo de Tipo moneda -->
+            <div class="mb-4">
+                <label for="tipoMoneda" class="block font-semibold">Tipo moneda</label>
+                <select id="tipoMoneda" name="tipoMoneda" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                    <option value="">Seleccione</option>
+                    <option value="soles">Soles</option>
+                    <option value="dolares">Dólares</option>
+                </select>
+                <div class="text-red-500 text-sm mt-1" id="tipoMonedaError"></div>
+            </div>
+
+            <!-- Campo de Monto -->
+            <div class="mb-4">
+                <label for="monto" class="block font-semibold">Monto</label>
+                <input type="text" id="monto" name="monto" placeholder="Ingrese el monto"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="montoError"></div>
+            </div>
+
+            <!-- Campo de Demandante -->
+            <div class="mb-4">
+                <label for="demandante" class="block font-semibold">Demandante</label>
+                <input type="text" id="demandante" name="demandante" placeholder="Ingrese el demandante"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="demandanteError"></div>
+            </div>
+
+            <!-- Campo de Demandado -->
+            <div class="mb-4">
+                <label for="demandado" class="block font-semibold">Demandado</label>
+                <input type="text" id="demandado" name="demandado" placeholder="Ingrese el demandado"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+
+            </div>
+
+            <!-- Campo de Juzgado -->
+            <div class="mb-4">
+                <label for="idJuzgado" class="block font-semibold">Juzgado</label>
+                <select id="idJuzgado" name="idJuzgado" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                    <option value="" disabled>Seleccione</option>
+                    ${juzgadosList.map(juzgado => `
+                        <option value="${juzgado.idJuzgado}" ${juzgado.idJuzgado === data.idJuzgado ? 'selected': ''}> ${juzgado.nombre}</option>
+                    `).join('')}
+                    <!-- Opciones de juzgado dinámicas -->
+                </select>
+                
+            </div>
+
+            <!-- Campo de Abogado -->
+            <div class="mb-4">
+                <label for="abogado" class="block font-semibold">Abogado</label>
+                <input type="text" id="abogado" name="abogado" placeholder="Ingrese el nombre del abogado(a)"
+                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
+                <div class="text-red-500 text-sm mt-1" id="abogadoError"></div>
+            </div>
+        </div>
+
+        <!-- Botones para guardar o cerrar el formulario -->
+        <div class="flex justify-end mt-4">
+            <button type="button" onclick="submitEditFormProcesoJudicial()" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
+            <button type="button" onclick="cerrarModalProcesoJudicial()" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cerrar</button>
+        </div>
+    </form>
+            `;
+            $('#modalProcesoJudicialesContent').html(content); // Inserta el formulario vacío en el modal
+            $('#procesoJudicialesModal').removeClass('hidden'); // Muestra el modal
+        },
+        error: function (xhr, status, error) {
+            alert("Error al cargar el formulario.");
+        }
+    })
+}
+
 function abrirModalProcesoJudicial(idProcesoJudiciales) {
     $.ajax({
         url: '/procesoJudiciales/get/' + idProcesoJudiciales,
@@ -395,7 +498,18 @@ function submitEditFormProcesoJudicial(){
         abogado: $('#abogado').val(),
         idJuzgado: $('#idJuzgado').val()
     };
-    console.log(procesoJudicialData)
+
+    for(const[campo,valor]of Object.entries(procesoJudicialData)){
+        if(!valor){
+            Swal.fire({
+                icon: 'warning',
+                title:'Campo obligatorio',
+                text: `El campo '${campo}' es obligatorio `,
+                confirmButtonText: 'Entendido'
+            });
+            return;
+        }
+    }
 
     const csrfToken = getCookie('XSRF-TOKEN');
     const csrfHeader = 'X-XSRF-TOKEN';
