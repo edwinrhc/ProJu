@@ -19,11 +19,10 @@ function abrirModalNuevoMovimiento() {
 
             // Genera el formulario vacío en el modal
             let content = `
-                <form id="movimientoForm" style="max-width: 400px;">
+                <form id="movimientoNew" style="max-width: 400px;">
                         <h4 class="text-2xl font-bold mb-6">Nuevo Movimiento</h4>
                     <div class="mb-4">
-                        <input type="text" name="idProcesoJudicial" value="${idProcesoJudicial}"> <!-- Campo oculto para idProcesoJudiciales -->
-                           
+                        <input type="hidden" name="idProcesoJudicial" value="${idProcesoJudicial}"> <!-- Campo oculto para idProcesoJudiciales -->
                         <label for="nombre" class="block font-semibold">Nombre:</label>
                         <textarea id="nombre" name="nombre" class="w-full p-2 border rounded" rows="3"></textarea>
                     </div>
@@ -44,7 +43,7 @@ function abrirModalNuevoMovimiento() {
                     </div>
                     <!-- Botones para guardar o cerrar el formulario -->
                     <div class="flex justify-end mt-4">
-                        <button type="button" onclick="submitForm()" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
+                        <button type="button" onclick="validaryEnviarFormMovimiento('movimientoNew')" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
                         <button type="button" onclick="cerrarModal()" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cerrar</button>
                     </div>
                 </form>
@@ -57,7 +56,46 @@ function abrirModalNuevoMovimiento() {
         }
     })
 }
+function validaryEnviarFormMovimiento(formId){
+    const nombre = $('#nombre').val().trim();
+    const idEtapaProcesal = $('#idEtapaProcesal').val();
+    const idContingencia = $('#idContingencia').val();
 
+    // Validación de campos usando SweetAlert
+    if (!nombre) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campo obligatorio',
+            text: "El campo 'Nombre' es obligatorio.",
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+    if (!idEtapaProcesal) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campo obligatorio',
+            text: "Debe seleccionar una 'Etapa Procesal'.",
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+    if (!idContingencia) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campo obligatorio',
+            text: "Debe seleccionar una 'Contingencia'.",
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+    // Ejecuta la función de envío
+    if(formId === 'movimientoNew'){
+        submitForm()
+    } else if(formId === 'movimientoUpdate'){
+        submitEditForm();
+    }
+}
 function submitForm() {
     const movimientoData = {
         idProcesoJudicial,
@@ -82,16 +120,31 @@ function submitForm() {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function (response) {
-            alert("Movimiento creado exitosamente");
-            cerrarModal();
+        success: function(response) {
+            // Muestra la alerta de éxito solo si el registro fue exitoso
+            Swal.fire({
+                icon: 'success',
+                title: 'Registro exitoso',
+                text: 'El nuevo movimiento se ha registrado correctamente.',
+                confirmButtonText: 'Perfecto'
+            }).then(() => {
+                cerrarModal(); // Cierra el modal después de confirmar
+                location.reload(); // Refresca la página para ver los cambios
+            });
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
             console.error("Error:", xhr.responseText);
-            alert("Error al crear el movimiento: " + xhr.responseText);
+            // Manejo de errores
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al registrar',
+                text: 'Hubo un problema al intentar registrar el movimiento. Inténtelo nuevamente.',
+                confirmButtonText: 'Entendido'
+            });
         }
     });
 }
+
 
 function abrirModalMovimiento(idMovimiento) {
     // Obtener los datos del movimiento
@@ -111,7 +164,7 @@ function abrirModalMovimiento(idMovimiento) {
 
                     // Construir el formulario
                     let content = `
-                        <form id="movimientoForm" style="max-width: 400px;">
+                        <form id="movimientoUpdate" style="max-width: 400px;">
                             <h4 class="text-2xl font-bold mb-6">Editar Movimiento</h4>
                             <input type="hidden" name="idMovimiento" value="${data.idMovimiento}">
                             <input type="hidden" name="idProcesoJudicial" value="${data.idProcesoJudicial}">
@@ -143,7 +196,7 @@ function abrirModalMovimiento(idMovimiento) {
                             
                             <!-- Botones para guardar o cerrar el formulario -->
                             <div class="flex justify-end mt-4">
-                                <button type="button" onclick="submitEditForm()" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
+                                <button type="button" onclick="validaryEnviarFormMovimiento('movimientoUpdate')" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
                                 <button type="button" onclick="cerrarModal()" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cerrar</button>
                             </div>
                         </form>
@@ -165,8 +218,8 @@ function abrirModalMovimiento(idMovimiento) {
 
 function submitEditForm() {
     const movimientoData = {
-        idMovimiento: $("#movimientoForm input[name='idMovimiento']").val(),
-        idProcesoJudicial: $("#movimientoForm input[name='idProcesoJudicial']").val(),
+        idMovimiento: $("#movimientoUpdate input[name='idMovimiento']").val(),
+        idProcesoJudicial: $("#movimientoUpdate input[name='idProcesoJudicial']").val(),
         nombre: $("#nombre").val(),
         idEtapaProcesal: $("#idEtapaProcesal").val(),
         idContingencia: $("#idContingencia").val(),
@@ -186,14 +239,27 @@ function submitEditForm() {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function (response) {
-            alert("Movimiento actualizado exitosamente");
-            cerrarModal();
-            // Opcional: actualizar la tabla o recargar la página para reflejar los cambios
+        success: function(response) {
+            // Muestra la alerta de éxito solo si el registro fue exitoso
+            Swal.fire({
+                icon: 'success',
+                title: 'Actualización exitosa',
+                text: 'El movimiento se ha actualizado correctamente.',
+                confirmButtonText: 'Perfecto'
+            }).then(() => {
+                cerrarModal(); // Cierra el modal después de confirmar
+                location.reload(); // Refresca la página para ver los cambios
+            });
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
             console.error("Error:", xhr.responseText);
-            alert("Error al actualizar el movimiento: " + xhr.responseText);
+            // Manejo de errores
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar',
+                text: 'Hubo un problema al intentar actualizar el movimiento. Inténtelo nuevamente.',
+                confirmButtonText: 'Entendido'
+            });
         }
     });
 }
@@ -343,12 +409,26 @@ function submitEditFormProcesoJudicial(){
             xhr.setRequestHeader(csrfHeader,csrfToken);
         },
         success: function (response){
-            alert('Proceso judicial actualizado exitosamente');
+           Swal.fire({
+               icon:'success',
+               title: 'Actualización exitosa',
+               text: 'El proceso judicial se ha actualizado correctamente',
+               confirmButtonText: 'Perfecto'
+           }).then(() =>{
             cerrarModal();
+            location.reload();
+
+           })
         },
         error: function (xhr,status,error){
             console.log("Error: ", xhr.responseText);
-            alert("Error al actualizar el movimiento: " + xhr.responseText);
+            // Manejo de errores
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar',
+                text: 'Hubo un problema al intentar actualizar el proceso judicial. Inténtelo nuevamente.',
+                confirmButtonText: 'Entendido'
+            });
         }
     });
 }
