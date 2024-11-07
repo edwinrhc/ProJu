@@ -354,7 +354,7 @@ function abrirModalNuevoProcedimientoJudicial(){
 
         <!-- Botones para guardar o cerrar el formulario -->
         <div class="flex justify-end mt-4">
-            <button type="button" onclick="submitEditFormProcesoJudicial()" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
+            <button type="button" onclick="submitFormProcesoJudicial()" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
             <button type="button" onclick="cerrarModalProcesoJudicial()" class="bg-gray-500 text-white px-4 py-2 rounded-md">Cerrar</button>
         </div>
     </form>
@@ -484,6 +484,79 @@ function abrirModalProcesoJudicial(idProcesoJudiciales) {
             console.error("Error al cargar los datos del proceso judicial:", error);
         }
     })
+}
+
+function submitFormProcesoJudicial(){
+    const procesoJudicialData = {
+
+        numExpediente: $('#numExpediente').val(),
+        materia: $('#materia').val(),
+        tipoMoneda: $('#tipoMoneda').val(),
+        monto: $('#monto').val(),
+        demandante: $('#demandante').val(),
+        demandado: $('#demandado').val(),
+        abogado: $('#abogado').val(),
+        idJuzgado: $('#idJuzgado').val()
+    };
+
+    const nombresCampos = {
+        numExpediente: "Número de Expediente",
+        materia: "Materia",
+        tipoMoneda: "Tipo de Moneda",
+        monto: "Monto",
+        demandante: "Demandante",
+        demandado: "Demandado",
+        abogado: "Abogado",
+        idJuzgado: "Juzgado"
+    };
+
+
+    for(const[campo,valor]of Object.entries(procesoJudicialData)){
+        if(!valor){
+            Swal.fire({
+                icon: 'warning',
+                title:'Campo obligatorio',
+                text: `El campo '${nombresCampos[campo]}' es obligatorio `,
+                confirmButtonText: 'Entendido'
+            });
+            return;
+        }
+    }
+
+    const csrfToken = getCookie('XSRF-TOKEN');
+    const csrfHeader = 'X-XSRF-TOKEN';
+
+    $.ajax({
+        url:'/procesoJudiciales/create',
+        type:'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(procesoJudicialData),
+        beforeSend: function (xhr){
+            xhr.setRequestHeader(csrfHeader,csrfToken);
+        },
+        success: function (response){
+            Swal.fire({
+                icon:'success',
+                title: 'Registro exitoso',
+                text: 'El proceso judicial se ha registrado correctamente',
+                confirmButtonText: 'Perfecto'
+            }).then(() =>{
+                cerrarModal();
+                location.reload();
+
+            })
+        },
+        error: function (xhr,status,error){
+            console.log("Error: ", xhr.responseText);
+            // Manejo de errores
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al registrar',
+                text: 'Hubo un problema al intentar registrar el proceso judicial. Inténtelo nuevamente.',
+                confirmButtonText: 'Entendido'
+            });
+        }
+    });
 }
 
 function submitEditFormProcesoJudicial(){

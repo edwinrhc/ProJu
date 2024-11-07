@@ -60,6 +60,7 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
         procesoJudiciales.setDemandante(procesoJudicialesDTO.getDemandante());
         procesoJudiciales.setDemandado(procesoJudicialesDTO.getDemandado());
         procesoJudiciales.setAbogado(procesoJudicialesDTO.getAbogado());
+        procesoJudiciales.setIdJuzgado(procesoJudicialesDTO.getIdJuzgado());
 
         procesoJudicialesDao.save(procesoJudiciales);
     }
