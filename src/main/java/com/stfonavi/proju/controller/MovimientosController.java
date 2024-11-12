@@ -14,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +60,7 @@ public class MovimientosController {
 
         dto.setIdMovimiento(movimiento.getIdMovimiento());
         dto.setNombre(movimiento.getNombre());
+//        dto.setFecha(movimiento.getFecha());
         dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
         dto.setNombreEtapaProcesal(movimiento.getEtapaProcesal().getNombre());
         dto.setNombreContingencia(movimiento.getTipoContigencia().getNombre());
@@ -110,9 +115,14 @@ public class MovimientosController {
             if(movimiento == null){
                 return ResponseEntity.notFound().build();
             }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha = movimientoDetailDTO.getFecha() != null ? sdf.parse(movimientoDetailDTO.getFecha()):null;
+
             // Actualizar los campos
             movimiento.setIdMovimiento(movimientoDetailDTO.getIdMovimiento());
             movimiento.setNombre(movimientoDetailDTO.getNombre());
+            movimiento.setFecha(fecha);
+
             movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
             movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
 

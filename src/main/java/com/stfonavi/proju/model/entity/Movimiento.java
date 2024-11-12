@@ -9,8 +9,10 @@ import org.springframework.data.annotation.LastModifiedBy;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -31,6 +33,10 @@ public class Movimiento implements Serializable {
     @Column(name = "NOMBRE")
     @NotEmpty(message = "El campo nombre no puede estar en blanco")
     private String nombre;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name="FECHA")
+    private Date fecha;
 
     @NotNull(message = "El campo etapa procesal no puede estar en blanco")
     @Column(name = "ID_ETAPA")

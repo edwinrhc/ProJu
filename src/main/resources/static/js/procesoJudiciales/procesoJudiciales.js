@@ -1,3 +1,4 @@
+
 //Variable globales
 const idProcesoJudicial = $("#idProcesoJudicial").val();
 
@@ -7,12 +8,10 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+
 function abrirModalNuevoMovimiento() {
     $.ajax({
-        url: '/movimientos/get',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
+        url: '/movimientos/get', type: 'GET', dataType: 'json', success: function (data) {
 
             const etapasProcesales = data.etapaProcesales;
             const tipoContigencia = data.tipoContigencia;
@@ -26,6 +25,13 @@ function abrirModalNuevoMovimiento() {
                         <label for="nombre" class="block font-semibold">Nombre:</label>
                         <textarea id="nombre" name="nombre" class="w-full p-2 border rounded" rows="3"></textarea>
                     </div>
+                    
+                      <div class="mb-4">
+                        <label for="fecha" class="text-gray-700 font-semibold">Fecha</label>
+                        <input type="text" id="fecha" name="fecha"
+                           class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full"
+                           placeholder="dd/MM/yyyy">
+                                        </div>
 
                     <div class="mb-4">
                         <label for="idEtapaProcesal" class="block font-semibold">Etapa Procesal:</label>
@@ -50,14 +56,55 @@ function abrirModalNuevoMovimiento() {
             `;
             $('#modalMovimientoContent').html(content); // Inserta el formulario vacío en el modal
             $('#modalMovimiento').removeClass('hidden'); // Muestra el modal
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             alert("Error al cargar el formulario.");
         }
     })
 }
-function validaryEnviarFormMovimiento(formId){
+
+function convertirFecha(fecha) {
+    const formato = 'DD/MM/YYYY';
+    const fechaValida = moment(fecha, formato, true);  // true para validación estricta
+
+    if (fechaValida.isValid()) {
+        const [day, month, year] = fecha.split('/');
+        return `${year}-${month}-${day}`;
+    } else {
+        return null;  // Si la fecha no es válida
+    }
+}
+// Función para validar la fecha y actualizar el campo
+function validarFecha(fecha) {
+    if (!fecha.trim()) {
+        // Si la fecha está vacía
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campo obligatorio',
+            text: "El campo 'Fecha' no puede estar vacío.",
+            confirmButtonText: 'Entendido'
+        });
+        return false;  // Fecha vacía
+    }
+    const fechaConvertida = convertirFecha(fecha);
+    if(fechaConvertida){
+        return fechaConvertida;
+    }else{
+        // Si la fecha no tiene el formato correcto
+        Swal.fire({
+            icon: 'warning',
+            title: 'Fecha Inválida',
+            text: "El formato correcto es DD/MM/YYYY.",
+            confirmButtonText: 'Entendido'
+        });
+        return false;  // Fecha inválida
+    }
+}
+
+
+
+function validaryEnviarFormMovimiento(formId) {
     const nombre = $('#nombre').val().trim();
+    const fecha = $('#fecha').val();  // Obtener valor de la fecha
     const idEtapaProcesal = $('#idEtapaProcesal').val();
     const idContingencia = $('#idContingencia').val();
 
@@ -71,6 +118,12 @@ function validaryEnviarFormMovimiento(formId){
         });
         return;
     }
+
+    const fechaValida = validarFecha(fecha);  // Validar la fecha
+    if (!fechaValida) {
+        return;  // Si la fecha no es válida, detener el envío
+    }
+
     if (!idEtapaProcesal) {
         Swal.fire({
             icon: 'warning',
@@ -90,18 +143,22 @@ function validaryEnviarFormMovimiento(formId){
         return;
     }
     // Ejecuta la función de envío
-    if(formId === 'movimientoNew'){
-        submitForm()
-    } else if(formId === 'movimientoUpdate'){
+    if (formId === 'movimientoNew') {
+        submitForm(fechaValida)
+    } else if (formId === 'movimientoUpdate') {
         submitEditForm();
     }
 }
-function submitForm() {
+
+function submitForm(fechaValida) {
+
     const movimientoData = {
         idProcesoJudicial,
         nombre: $("#nombre").val(),
+        fecha: fechaValida,  // Usar la fecha validada
         idEtapaProcesal: $("#idEtapaProcesal").val(),
-        idContingencia: $("#idContingencia").val(),
+        idContingencia: $("#idContingencia").val()
+
     };
     // console.log(movimientoData)
 
@@ -120,7 +177,7 @@ function submitForm() {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function(response) {
+        success: function (response) {
             // Muestra la alerta de éxito solo si el registro fue exitoso
             Swal.fire({
                 icon: 'success',
@@ -132,7 +189,7 @@ function submitForm() {
                 location.reload(); // Refresca la página para ver los cambios
             });
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("Error:", xhr.responseText);
             // Manejo de errores
             Swal.fire({
@@ -149,16 +206,10 @@ function submitForm() {
 function abrirModalMovimiento(idMovimiento) {
     // Obtener los datos del movimiento
     $.ajax({
-        url: '/movimientos/get/' + idMovimiento,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
+        url: '/movimientos/get/' + idMovimiento, type: 'GET', dataType: 'json', success: function (data) {
             // Obtener las listas de opciones
             $.ajax({
-                url: '/movimientos/get/options',
-                type: 'GET',
-                dataType: 'json',
-                success: function (optionsData) {
+                url: '/movimientos/get/options', type: 'GET', dataType: 'json', success: function (optionsData) {
                     const etapasProcesales = optionsData.etapaProcesals;
                     const tipoContigencias = optionsData.tipoContigencias;
 
@@ -204,13 +255,11 @@ function abrirModalMovimiento(idMovimiento) {
 
                     $('#modalMovimientoContent').html(content); // Inserta el formulario en el modal
                     $('#modalMovimiento').removeClass('hidden'); // Muestra el modal
-                },
-                error: function (xhr, status, error) {
+                }, error: function (xhr, status, error) {
                     alert("Error al cargar las opciones.");
                 }
             });
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             alert("Error al cargar el movimiento.");
         }
     });
@@ -221,6 +270,7 @@ function submitEditForm() {
         idMovimiento: $("#movimientoUpdate input[name='idMovimiento']").val(),
         idProcesoJudicial: $("#movimientoUpdate input[name='idProcesoJudicial']").val(),
         nombre: $("#nombre").val(),
+        fecha:$("#fecha").val(),
         idEtapaProcesal: $("#idEtapaProcesal").val(),
         idContingencia: $("#idContingencia").val(),
     };
@@ -239,7 +289,7 @@ function submitEditForm() {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function(response) {
+        success: function (response) {
             // Muestra la alerta de éxito solo si el registro fue exitoso
             Swal.fire({
                 icon: 'success',
@@ -251,7 +301,7 @@ function submitEditForm() {
                 location.reload(); // Refresca la página para ver los cambios
             });
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("Error:", xhr.responseText);
             // Manejo de errores
             Swal.fire({
@@ -265,12 +315,9 @@ function submitEditForm() {
 }
 
 
-function abrirModalNuevoProcedimientoJudicial(){
+function abrirModalNuevoProcedimientoJudicial() {
     $.ajax({
-        url: '/procesoJudiciales/get',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data){
+        url: '/procesoJudiciales/get', type: 'GET', dataType: 'json', success: function (data) {
             const juzgadosList = data.juzgado;
             let content = `
              <form id="procesoJudicialesForm" style="max-width: 800px;" class="bg-white p-6 rounded-lg shadow-md space-y-6 w-full max-w-full mx-auto overflow-hidden">
@@ -336,7 +383,7 @@ function abrirModalNuevoProcedimientoJudicial(){
                 <select id="idJuzgado" name="idJuzgado" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
                     <option value="" disabled>Seleccione</option>
                     ${juzgadosList.map(juzgado => `
-                        <option value="${juzgado.idJuzgado}" ${juzgado.idJuzgado === data.idJuzgado ? 'selected': ''}> ${juzgado.nombre}</option>
+                        <option value="${juzgado.idJuzgado}" ${juzgado.idJuzgado === data.idJuzgado ? 'selected' : ''}> ${juzgado.nombre}</option>
                     `).join('')}
                     <!-- Opciones de juzgado dinámicas -->
                 </select>
@@ -361,8 +408,7 @@ function abrirModalNuevoProcedimientoJudicial(){
             `;
             $('#modalProcesoJudicialesContent').html(content); // Inserta el formulario vacío en el modal
             $('#procesoJudicialesModal').removeClass('hidden'); // Muestra el modal
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             alert("Error al cargar el formulario.");
         }
     })
@@ -370,15 +416,9 @@ function abrirModalNuevoProcedimientoJudicial(){
 
 function abrirModalProcesoJudicial(idProcesoJudiciales) {
     $.ajax({
-        url: '/procesoJudiciales/get/' + idProcesoJudiciales,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
+        url: '/procesoJudiciales/get/' + idProcesoJudiciales, type: 'GET', dataType: 'json', success: function (data) {
             $.ajax({
-                url: '/procesoJudiciales/get/options',
-                type: 'GET',
-                dataType: 'json',
-                success: function (optionsData) {
+                url: '/procesoJudiciales/get/options', type: 'GET', dataType: 'json', success: function (optionsData) {
                     const juzgadosList = optionsData.juzgadosList;
 
                     let content = `
@@ -445,7 +485,7 @@ function abrirModalProcesoJudicial(idProcesoJudiciales) {
                 <select id="idJuzgado" name="idJuzgado" class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
                     <option value="" disabled>Seleccione</option>
                     ${juzgadosList.map(juzgado => `
-                        <option value="${juzgado.idJuzgado}" ${juzgado.idJuzgado === data.idJuzgado ? 'selected': ''}> ${juzgado.nombre}</option>
+                        <option value="${juzgado.idJuzgado}" ${juzgado.idJuzgado === data.idJuzgado ? 'selected' : ''}> ${juzgado.nombre}</option>
                     `).join('')}
                     <!-- Opciones de juzgado dinámicas -->
                 </select>
@@ -474,19 +514,17 @@ function abrirModalProcesoJudicial(idProcesoJudiciales) {
 
                     $('#tipoMoneda').val(data.tipoMoneda || "");
 
-                },
-                error: function (xhr, status, error) {
+                }, error: function (xhr, status, error) {
                     console.error("Error al cargar las opciones:", error);
                 }
             });
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             console.error("Error al cargar los datos del proceso judicial:", error);
         }
     })
 }
 
-function submitFormProcesoJudicial(){
+function submitFormProcesoJudicial() {
     const procesoJudicialData = {
 
         numExpediente: $('#numExpediente').val(),
@@ -511,11 +549,11 @@ function submitFormProcesoJudicial(){
     };
 
 
-    for(const[campo,valor]of Object.entries(procesoJudicialData)){
-        if(!valor){
+    for (const [campo, valor] of Object.entries(procesoJudicialData)) {
+        if (!valor) {
             Swal.fire({
                 icon: 'warning',
-                title:'Campo obligatorio',
+                title: 'Campo obligatorio',
                 text: `El campo '${nombresCampos[campo]}' es obligatorio `,
                 confirmButtonText: 'Entendido'
             });
@@ -527,26 +565,26 @@ function submitFormProcesoJudicial(){
     const csrfHeader = 'X-XSRF-TOKEN';
 
     $.ajax({
-        url:'/procesoJudiciales/create',
-        type:'POST',
+        url: '/procesoJudiciales/create',
+        type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(procesoJudicialData),
-        beforeSend: function (xhr){
-            xhr.setRequestHeader(csrfHeader,csrfToken);
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function (response){
+        success: function (response) {
             Swal.fire({
-                icon:'success',
+                icon: 'success',
                 title: 'Registro exitoso',
                 text: 'El proceso judicial se ha registrado correctamente',
                 confirmButtonText: 'Perfecto'
-            }).then(() =>{
+            }).then(() => {
                 cerrarModal();
                 location.reload();
 
             })
         },
-        error: function (xhr,status,error){
+        error: function (xhr, status, error) {
             console.log("Error: ", xhr.responseText);
             // Manejo de errores
             Swal.fire({
@@ -559,7 +597,7 @@ function submitFormProcesoJudicial(){
     });
 }
 
-function submitEditFormProcesoJudicial(){
+function submitEditFormProcesoJudicial() {
     const procesoJudicialData = {
         idProcesoJudicial: $("#procesoJudicialesForm input[name='idProcesoJudicial']").val(),
         numExpediente: $('#numExpediente').val(),
@@ -572,11 +610,11 @@ function submitEditFormProcesoJudicial(){
         idJuzgado: $('#idJuzgado').val()
     };
 
-    for(const[campo,valor]of Object.entries(procesoJudicialData)){
-        if(!valor){
+    for (const [campo, valor] of Object.entries(procesoJudicialData)) {
+        if (!valor) {
             Swal.fire({
                 icon: 'warning',
-                title:'Campo obligatorio',
+                title: 'Campo obligatorio',
                 text: `El campo '${campo}' es obligatorio `,
                 confirmButtonText: 'Entendido'
             });
@@ -588,26 +626,26 @@ function submitEditFormProcesoJudicial(){
     const csrfHeader = 'X-XSRF-TOKEN';
 
     $.ajax({
-        url:'/procesoJudiciales/update',
-        type:'POST',
+        url: '/procesoJudiciales/update',
+        type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(procesoJudicialData),
-        beforeSend: function (xhr){
-            xhr.setRequestHeader(csrfHeader,csrfToken);
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function (response){
-           Swal.fire({
-               icon:'success',
-               title: 'Actualización exitosa',
-               text: 'El proceso judicial se ha actualizado correctamente',
-               confirmButtonText: 'Perfecto'
-           }).then(() =>{
-            cerrarModal();
-            location.reload();
+        success: function (response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Actualización exitosa',
+                text: 'El proceso judicial se ha actualizado correctamente',
+                confirmButtonText: 'Perfecto'
+            }).then(() => {
+                cerrarModal();
+                location.reload();
 
-           })
+            })
         },
-        error: function (xhr,status,error){
+        error: function (xhr, status, error) {
             console.log("Error: ", xhr.responseText);
             // Manejo de errores
             Swal.fire({
@@ -627,4 +665,3 @@ function cerrarModal() {
 function cerrarModalProcesoJudicial() {
     $('#procesoJudicialesModal').addClass('hidden'); // Oculta el modal
 }
-

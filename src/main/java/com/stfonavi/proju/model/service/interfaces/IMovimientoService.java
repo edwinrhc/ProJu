@@ -3,6 +3,7 @@ package com.stfonavi.proju.model.service.interfaces;
 import com.stfonavi.proju.dto.MovimientoDetailDTO;
 import com.stfonavi.proju.model.entity.Movimiento;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface IMovimientoService {
@@ -11,7 +12,7 @@ public interface IMovimientoService {
 
     void save(Movimiento movimiento);
 
-    void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO);
+    void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO) throws ParseException;
 
     void updateMovimiento(MovimientoDetailDTO movimientoDetailDTO);
 
