@@ -60,7 +60,11 @@ public class MovimientosController {
 
         dto.setIdMovimiento(movimiento.getIdMovimiento());
         dto.setNombre(movimiento.getNombre());
-//        dto.setFecha(movimiento.getFecha());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaFormateada = movimiento.getFecha() != null ? sdf.format(movimiento.getFecha()) : null;
+        dto.setFecha(fechaFormateada);
+
         dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
         dto.setNombreEtapaProcesal(movimiento.getEtapaProcesal().getNombre());
         dto.setNombreContingencia(movimiento.getTipoContigencia().getNombre());

@@ -100,8 +100,6 @@ function validarFecha(fecha) {
     }
 }
 
-
-
 function validaryEnviarFormMovimiento(formId) {
     const nombre = $('#nombre').val().trim();
     const fecha = $('#fecha').val();  // Obtener valor de la fecha
@@ -146,7 +144,7 @@ function validaryEnviarFormMovimiento(formId) {
     if (formId === 'movimientoNew') {
         submitForm(fechaValida)
     } else if (formId === 'movimientoUpdate') {
-        submitEditForm();
+        submitEditForm(fechaValida);
     }
 }
 
@@ -203,7 +201,7 @@ function submitForm(fechaValida) {
 }
 
 
-function abrirModalMovimiento(idMovimiento) {
+function abrirModalMovimientoEdit(idMovimiento) {
     // Obtener los datos del movimiento
     $.ajax({
         url: '/movimientos/get/' + idMovimiento, type: 'GET', dataType: 'json', success: function (data) {
@@ -212,6 +210,9 @@ function abrirModalMovimiento(idMovimiento) {
                 url: '/movimientos/get/options', type: 'GET', dataType: 'json', success: function (optionsData) {
                     const etapasProcesales = optionsData.etapaProcesals;
                     const tipoContigencias = optionsData.tipoContigencias;
+
+                    const fechaOriginal = data.fecha;
+                    const fechaFormateada = moment(fechaOriginal,'YYYY-MM-DD').format('DD/MM/YYYY');
 
                     // Construir el formulario
                     let content = `
@@ -224,6 +225,13 @@ function abrirModalMovimiento(idMovimiento) {
                                 <label for="nombre" class="block font-semibold">Nombre:</label>
                                 <textarea id="nombre" name="nombre" class="w-full p-2 border rounded" rows="3">${data.nombre ? data.nombre : ''}</textarea>
                             </div>
+                            
+                                <div class="mb-4">
+                                    <label for="fecha" class="text-gray-700 font-semibold">Fecha</label>
+                                    <input type="text" id="fecha" name="fecha" value="${fechaFormateada}"
+                                       class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full"
+                                       placeholder="dd/MM/yyyy">
+                                        </div>
                             
                             <div class="mb-4">
                                 <label for="idEtapaProcesal" class="block font-semibold">Etapa Procesal:</label>
@@ -265,12 +273,13 @@ function abrirModalMovimiento(idMovimiento) {
     });
 }
 
-function submitEditForm() {
+function submitEditForm(fechaValida) {
     const movimientoData = {
         idMovimiento: $("#movimientoUpdate input[name='idMovimiento']").val(),
         idProcesoJudicial: $("#movimientoUpdate input[name='idProcesoJudicial']").val(),
         nombre: $("#nombre").val(),
-        fecha:$("#fecha").val(),
+        // fecha:$("#fecha").val(),
+        fecha:fechaValida,
         idEtapaProcesal: $("#idEtapaProcesal").val(),
         idContingencia: $("#idContingencia").val(),
     };

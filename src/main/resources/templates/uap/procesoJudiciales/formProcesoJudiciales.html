@@ -135,7 +135,8 @@
                     <tbody>
                     <tr th:each="movimiento : ${movimientoDetails}">
                         <td class="border px-4 py-2" th:text="${movimiento.nombre}"></td>
-                        <td class="border px-4 py-2" th:text="${#dates.format(movimiento.fecha, 'dd/MM/yyyy')}"></td>
+<!--                        <td class="border px-4 py-2" th:text="${#dates.format(movimiento.fecha, 'dd/MM/yyyy')}"></td>-->
+                        <td class="border px-4 py-2" th:text="${movimiento.fecha}"></td>
                         <td class="border px-4 py-2" th:text="${movimiento.nombreEtapaProcesal}"></td>
                         <td class="border px-4 py-2" th:text="${movimiento.nombreContingencia}"></td>
 
@@ -145,7 +146,7 @@
                         <td class="border px-4 py-2" th:text="${movimiento.updatedBy}"></td>
                         <td class="py-2 px-4 border-b text-center">
                             <a href="javascript:void(0);"
-                               th:onclick="'abrirModalMovimiento(' + ${movimiento.idMovimiento}+ ')'"
+                               th:onclick="'abrirModalMovimientoEdit(' + ${movimiento.idMovimiento}+ ')'"
                                class="text-sm bg-sky-600 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </a>

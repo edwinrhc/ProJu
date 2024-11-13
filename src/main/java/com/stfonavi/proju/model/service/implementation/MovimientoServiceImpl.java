@@ -13,6 +13,8 @@ import com.stfonavi.proju.model.service.interfaces.IMovimientoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +45,6 @@ public class MovimientoServiceImpl implements IMovimientoService {
     private ITipoContigenciaDao tipoContigenciaDao;
 
 
-
     @Override
     @Transactional(readOnly = true)
     public List<Movimiento> findAll() {
@@ -68,13 +69,13 @@ public class MovimientoServiceImpl implements IMovimientoService {
 
     @Override
     @Transactional
-    public void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO)  {
+    public void guardarMovimiento(MovimientoDetailDTO movimientoDetailDTO) {
 
-        try{
+        try {
             Movimiento movimiento = new Movimiento();
             movimiento.setNombre(movimientoDetailDTO.getNombre());
 
-            if(movimientoDetailDTO.getFecha() != null){
+            if (movimientoDetailDTO.getFecha() != null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date fecha = sdf.parse(movimientoDetailDTO.getFecha());
                 movimiento.setFecha(fecha);
@@ -87,8 +88,20 @@ public class MovimientoServiceImpl implements IMovimientoService {
                     .orElseThrow(() -> new IllegalArgumentException("Proceso Judicial no encontrado"));
 
             movimiento.setProcesoJudicial(procesoJudicial);
+
+            // Obtener el usuario autenticado
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication != null && authentication.isAuthenticated()){
+                String username = authentication.getName();
+                movimiento.setCreatedBy(username);
+            }else{
+                throw new RuntimeException("Usuario no autenticado");
+            }
+
+
+
             movimientoDao.save(movimiento);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error al guardar el movimiento: " + e.getMessage());
         }
@@ -100,14 +113,35 @@ public class MovimientoServiceImpl implements IMovimientoService {
     @Transactional
     public void updateMovimiento(MovimientoDetailDTO movimientoDetailDTO) {
 
-        Movimiento movimiento = movimientoDao.findById(movimientoDetailDTO.getIdMovimiento())
-                .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado con ID: " + movimientoDetailDTO.getIdMovimiento()));
-        // Actualizar los campos del movimiento
-        movimiento.setNombre(movimientoDetailDTO.getNombre());
-//        movimiento.setFecha(movimientoDetailDTO.getFecha());
-        movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
-        movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
-        movimientoDao.save(movimiento);
+        try {
+            Movimiento movimiento = movimientoDao.findById(movimientoDetailDTO.getIdMovimiento())
+                    .orElseThrow(() -> new EntityNotFoundException("Movimiento no encontrado con ID: " + movimientoDetailDTO.getIdMovimiento()));
+            // Actualizar los campos del movimiento
+            movimiento.setNombre(movimientoDetailDTO.getNombre());
+            if (movimientoDetailDTO.getFecha() != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date fecha = sdf.parse(movimientoDetailDTO.getFecha());
+                movimiento.setFecha(fecha);
+            }
+            movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
+            movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
+
+            // Obtener el usuario autenticado
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication != null && authentication.isAuthenticated()){
+                String username = authentication.getName();
+                movimiento.setUpdatedBy(username);
+            }else{
+                throw new RuntimeException("Usuario no autenticado");
+            }
+
+
+            movimientoDao.save(movimiento);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al actualizar el movimiento: " + e.getMessage());
+        }
+
     }
 
     @Override
@@ -134,13 +168,13 @@ public class MovimientoServiceImpl implements IMovimientoService {
     @Override
     public List<MovimientoDetailDTO> getMovimientoDetailsByProcesoJudicialId(Long idProcesoJudicial) {
         List<Movimiento> movimientos = movimientoDao.findByProcesoJudicial_IdProcesoJudicial(idProcesoJudicial);
-        List<MovimientoDetailDTO>movimientoDetails = new ArrayList<>();
+        List<MovimientoDetailDTO> movimientoDetails = new ArrayList<>();
 
-        for(Movimiento movimiento: movimientos){
+        for (Movimiento movimiento : movimientos) {
             MovimientoDetailDTO dto = new MovimientoDetailDTO();
             dto.setIdMovimiento(movimiento.getIdMovimiento());
             dto.setNombre(movimiento.getNombre());
-            if(movimiento.getFecha() != null){
+            if (movimiento.getFecha() != null) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String fechaFormateada = dateFormat.format(movimiento.getFecha());
                 dto.setFecha(fechaFormateada);
