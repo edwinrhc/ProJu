@@ -17,10 +17,8 @@ public interface IMovimientoDao extends JpaRepository<Movimiento, Long> {
 //    @Query("SELECT new com.stfonavi.proju.dto.MovimientoDetailDTO(m.idMovimiento,m.nombre, m.idEtapaProcesal, m.idContigencia, m.createdAt, m.createdBy, m.updatedAt, m.updatedBy, pj.idProcesoJudicial) " +
 //            "FROM Movimiento m INNER JOIN m.procesoJudicial pj WHERE pj.idProcesoJudicial = :idProcesoJudicial")
 //    List<MovimientoDetailDTO> findMovimientoDetailsByProcesoJudicialId(@Param("idProcesoJudicial") Long idProcesoJudicial);
-@Query("SELECT new  com.stfonavi.proju.dto.MovimientoDetailDTO(m.idMovimiento, m.nombre,FUNCTION('TO_CHAR', m.fecha, 'YYYY-MM-DD'), m.idEtapaProcesal, ep.nombre,m.idContigencia, c.nombre, m.createdAt, m.createdBy, m.updatedAt, m.updatedBy, m.procesoJudicial.idProcesoJudicial) " +
+@Query("SELECT new  com.stfonavi.proju.dto.MovimientoDetailDTO(m.idMovimiento, m.nombre,FUNCTION('TO_CHAR', m.fecha, 'YYYY-MM-DD'), m.createdAt, m.createdBy, m.updatedAt, m.updatedBy, m.procesoJudicial.idProcesoJudicial) " +
         "FROM Movimiento m " +
-        "JOIN EtapaProcesal ep ON m.idEtapaProcesal = ep.idEtapa " +
-        "JOIN TipoContigencia c ON m.idContigencia = c.idTipoContigencia " +
         "WHERE m.procesoJudicial.idProcesoJudicial = :idProcesoJudicial")
 List<MovimientoDetailDTO> findDetalleByProcesoJudicialId(@Param("idProcesoJudicial") Long idProcesoJudicial);
 

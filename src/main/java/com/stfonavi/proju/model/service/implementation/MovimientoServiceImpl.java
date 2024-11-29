@@ -80,8 +80,7 @@ public class MovimientoServiceImpl implements IMovimientoService {
                 Date fecha = sdf.parse(movimientoDetailDTO.getFecha());
                 movimiento.setFecha(fecha);
             }
-            movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
-            movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
+
 //        movimiento.setIdProcesoJudicial(movimientoDetailDTO.getIdProcesoJudicial());
             // Obtener y establecer la relación con ProcesoJudiciales
             ProcesoJudiciales procesoJudicial = procesoJudicialDao.findById(movimientoDetailDTO.getIdProcesoJudicial())
@@ -123,8 +122,7 @@ public class MovimientoServiceImpl implements IMovimientoService {
                 Date fecha = sdf.parse(movimientoDetailDTO.getFecha());
                 movimiento.setFecha(fecha);
             }
-            movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
-            movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
+
 
             // Obtener el usuario autenticado
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -180,16 +178,6 @@ public class MovimientoServiceImpl implements IMovimientoService {
                 dto.setFecha(fechaFormateada);
             }
 
-            dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
-            dto.setIdContingencia(movimiento.getIdContigencia());
-
-            // Obtener y establecer los nombres
-            Optional<EtapaProcesal> etapa = etapaProcesalDao.findById(movimiento.getIdEtapaProcesal());
-            etapa.ifPresent(e -> dto.setNombreEtapaProcesal(e.getNombre()));
-
-
-            Optional<TipoContigencia> contigencia = tipoContigenciaDao.findById(movimiento.getIdContigencia());
-            contigencia.ifPresent(c -> dto.setNombreContingencia(c.getNombre()));
 
             dto.setCreatedAt(movimiento.getCreatedAt());
             dto.setCreatedBy(movimiento.getCreatedBy());

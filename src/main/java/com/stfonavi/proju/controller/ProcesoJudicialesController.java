@@ -2,11 +2,11 @@ package com.stfonavi.proju.controller;
 
 import com.stfonavi.proju.dto.MovimientoDetailDTO;
 import com.stfonavi.proju.dto.ProcesoJudicialesDTO;
+import com.stfonavi.proju.model.entity.EtapaProcesal;
 import com.stfonavi.proju.model.entity.Juzgado;
 import com.stfonavi.proju.model.entity.ProcesoJudiciales;
-import com.stfonavi.proju.model.service.interfaces.IJuzgadoService;
-import com.stfonavi.proju.model.service.interfaces.IMovimientoService;
-import com.stfonavi.proju.model.service.interfaces.IProcesoJudicialesService;
+import com.stfonavi.proju.model.entity.TipoContigencia;
+import com.stfonavi.proju.model.service.interfaces.*;
 import com.stfonavi.proju.util.helper.Constantes;
 import com.stfonavi.proju.util.paginator.PageRender;
 import org.slf4j.Logger;
@@ -41,6 +41,12 @@ public class ProcesoJudicialesController {
 
     @Autowired
     private IJuzgadoService juzgadoService;
+
+    @Autowired
+    private IEtapaProcesalService etapaProcesalService;
+
+    @Autowired
+    private ITipoContigenciaService tipoContigenciaService;
 
     @Autowired
     private IMovimientoService movimientoService;
@@ -96,11 +102,15 @@ public class ProcesoJudicialesController {
     @GetMapping("/get")
     public ResponseEntity<Map<String, Object>> getMostrarForm(){
         ProcesoJudicialesDTO dto = new ProcesoJudicialesDTO();
+        List<EtapaProcesal> etapaProcesales = etapaProcesalService.ListarTodos();
+        List<TipoContigencia> tipoContigencia = tipoContigenciaService.findAll();
         List<Juzgado> juzgado = juzgadoService.ListarTodos();
 
         Map<String,Object> response = new HashMap<>();
         response.put("procesoJudiciales",dto);
         response.put("juzgado",juzgado);
+        response.put("etapaProcesales",etapaProcesales);
+        response.put("tipoContigencia",tipoContigencia);
 
         return ResponseEntity.ok(response);
     }
@@ -123,6 +133,10 @@ public class ProcesoJudicialesController {
         dto.setDemandado(procesoJudiciales.getDemandado());
         dto.setIdJuzgado(procesoJudiciales.getIdJuzgado());
         dto.setAbogado(procesoJudiciales.getAbogado());
+
+        dto.setIdEtapaProcesal(procesoJudiciales.getIdEtapaProcesal());
+        dto.setNombreEtapaProcesal(procesoJudiciales.getEtapaProcesal().getNombre());
+        dto.setNombreContingencia(procesoJudiciales.getTipoContigencia().getNombre());
 
         return ResponseEntity.ok(dto);
     }
@@ -221,6 +235,10 @@ public class ProcesoJudicialesController {
             procesoJudiciales.setAbogado(procesoJudicialesDTO.getAbogado());
             procesoJudiciales.setIdJuzgado(procesoJudicialesDTO.getIdJuzgado());
 
+
+            procesoJudiciales.setIdEtapaProcesal(procesoJudicialesDTO.getIdEtapaProcesal());
+            procesoJudiciales.setIdContigencia(procesoJudicialesDTO.getIdContingencia());
+
             procesoJudicialesService.updateProcesoJudicial(procesoJudicialesDTO);
 
             return ResponseEntity.ok("Proceso judicial actualizado");
@@ -234,7 +252,11 @@ public class ProcesoJudicialesController {
     public ResponseEntity<Map<String,Object>> getOptions(){
         Map<String,Object> response = new HashMap<>();
         List<Juzgado> juzgadosList = juzgadoService.ListarTodos();
+        List<EtapaProcesal> etapaProcesals = etapaProcesalService.ListarTodos();
+        List<TipoContigencia> tipoContigencias = tipoContigenciaService.findAll();
         response.put("juzgadosList",juzgadosList);
+        response.put("etapaProcesals",etapaProcesals);
+        response.put("tipoContigencias",tipoContigencias);
         return ResponseEntity.ok(response);
     }
 

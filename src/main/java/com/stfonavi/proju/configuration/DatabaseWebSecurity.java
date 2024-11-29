@@ -25,8 +25,6 @@ public class DatabaseWebSecurity {
                 + "INNER JOIN SOPORTE.SFSOP_USUARIO_FONAVI u ON u.USR_C_ID= ur.USR_C_ID "
                 + "INNER JOIN SOPORTE.SFSOP_ROL r ON r.ROL_C_ID = ur.ROL_C_ID "
                 + "WHERE u.USR_D_USUARIO = ? ");
-
-
         return users;
     }
 

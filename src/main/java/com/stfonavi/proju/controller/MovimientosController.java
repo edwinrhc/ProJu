@@ -65,9 +65,6 @@ public class MovimientosController {
         String fechaFormateada = movimiento.getFecha() != null ? sdf.format(movimiento.getFecha()) : null;
         dto.setFecha(fechaFormateada);
 
-        dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
-        dto.setNombreEtapaProcesal(movimiento.getEtapaProcesal().getNombre());
-        dto.setNombreContingencia(movimiento.getTipoContigencia().getNombre());
 //        dto.setI
 //        dto.setIdProcesoJudicial(movimiento.getIdProcesoJudicial());
 
@@ -126,9 +123,6 @@ public class MovimientosController {
             movimiento.setIdMovimiento(movimientoDetailDTO.getIdMovimiento());
             movimiento.setNombre(movimientoDetailDTO.getNombre());
             movimiento.setFecha(fecha);
-
-            movimiento.setIdEtapaProcesal(movimientoDetailDTO.getIdEtapaProcesal());
-            movimiento.setIdContigencia(movimientoDetailDTO.getIdContingencia());
 
             movimientoService.updateMovimiento(movimientoDetailDTO);
             return ResponseEntity.ok("Movimiento actualizado");

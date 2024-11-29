@@ -22,4 +22,8 @@ public class ProcesoJudicialesDTO {
     private String abogado;
     private String createdBy;
     private String updatedBy;
+    private Long idEtapaProcesal;
+    private String nombreEtapaProcesal;
+    private Long idContingencia;
+    private String nombreContingencia;
 }

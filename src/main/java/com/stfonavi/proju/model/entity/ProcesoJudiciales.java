@@ -88,6 +88,24 @@ public class ProcesoJudiciales implements Serializable {
     @Column(name = "actualizado_por")
     private String updatedBy;
 
+
+    @NotNull(message = "El campo etapa procesal no puede estar en blanco")
+    @Column(name = "ID_ETAPA")
+    private Long idEtapaProcesal;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_ETAPA", insertable = false, updatable = false)
+    private EtapaProcesal etapaProcesal;
+
+    @NotNull(message = "El campo contingencia no puede estar en blanco")
+    @Column(name = "ID_CONTINGENCIA")
+    private Long idContigencia;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CONTINGENCIA", insertable = false, updatable = false)
+    private TipoContigencia tipoContigencia;
+
+
     @PrePersist
     public void prePersist(){
         createdAt = new Date();

@@ -13,8 +13,6 @@ function abrirModalNuevoMovimiento() {
     $.ajax({
         url: '/movimientos/get', type: 'GET', dataType: 'json', success: function (data) {
 
-            const etapasProcesales = data.etapaProcesales;
-            const tipoContigencia = data.tipoContigencia;
 
             // Genera el formulario vacío en el modal
             let content = `
@@ -33,20 +31,7 @@ function abrirModalNuevoMovimiento() {
                            placeholder="dd/MM/yyyy">
                                         </div>
 
-                    <div class="mb-4">
-                        <label for="idEtapaProcesal" class="block font-semibold">Etapa Procesal:</label>
-                        <select id="idEtapaProcesal" name="idEtapaProcesal" class="w-full p-2 border rounded">
-                            <option value="" selected>Seleccione</option>
-                            ${etapasProcesales.map(etapa => `<option value="${etapa.idEtapa}">${etapa.nombre}</option>`).join('')}
-                        </select>
-                    </div>
-                      <div class="mb-4">
-                        <label for="idContingencia" class="block font-semibold">Contigencia:</label>
-                        <select id="idContingencia" name="idContingencia" class="w-full p-2 border rounded">
-                            <option value="" selected>Seleccione</option>
-                            ${tipoContigencia.map(tipoContigencia => `<option value="${tipoContigencia.idTipoContigencia}">${tipoContigencia.nombre}</option>`).join('')}
-                        </select>
-                    </div>
+      
                     <!-- Botones para guardar o cerrar el formulario -->
                     <div class="flex justify-end mt-4">
                         <button type="button" onclick="validaryEnviarFormMovimiento('movimientoNew')" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
@@ -103,8 +88,8 @@ function validarFecha(fecha) {
 function validaryEnviarFormMovimiento(formId) {
     const nombre = $('#nombre').val().trim();
     const fecha = $('#fecha').val();  // Obtener valor de la fecha
-    const idEtapaProcesal = $('#idEtapaProcesal').val();
-    const idContingencia = $('#idContingencia').val();
+    // const idEtapaProcesal = $('#idEtapaProcesal').val();
+    // const idContingencia = $('#idContingencia').val();
 
     // Validación de campos usando SweetAlert
     if (!nombre) {
@@ -122,24 +107,6 @@ function validaryEnviarFormMovimiento(formId) {
         return;  // Si la fecha no es válida, detener el envío
     }
 
-    if (!idEtapaProcesal) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Campo obligatorio',
-            text: "Debe seleccionar una 'Etapa Procesal'.",
-            confirmButtonText: 'Entendido'
-        });
-        return;
-    }
-    if (!idContingencia) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Campo obligatorio',
-            text: "Debe seleccionar una 'Contingencia'.",
-            confirmButtonText: 'Entendido'
-        });
-        return;
-    }
     // Ejecuta la función de envío
     if (formId === 'movimientoNew') {
         submitForm(fechaValida)
@@ -154,8 +121,8 @@ function submitForm(fechaValida) {
         idProcesoJudicial,
         nombre: $("#nombre").val(),
         fecha: fechaValida,  // Usar la fecha validada
-        idEtapaProcesal: $("#idEtapaProcesal").val(),
-        idContingencia: $("#idContingencia").val()
+        // idEtapaProcesal: $("#idEtapaProcesal").val(),
+        // idContingencia: $("#idContingencia").val()
 
     };
     // console.log(movimientoData)
@@ -206,10 +173,6 @@ function abrirModalMovimientoEdit(idMovimiento) {
     $.ajax({
         url: '/movimientos/get/' + idMovimiento, type: 'GET', dataType: 'json', success: function (data) {
             // Obtener las listas de opciones
-            $.ajax({
-                url: '/movimientos/get/options', type: 'GET', dataType: 'json', success: function (optionsData) {
-                    const etapasProcesales = optionsData.etapaProcesals;
-                    const tipoContigencias = optionsData.tipoContigencias;
 
                     const fechaOriginal = data.fecha;
                     const fechaFormateada = moment(fechaOriginal,'YYYY-MM-DD').format('DD/MM/YYYY');
@@ -233,26 +196,7 @@ function abrirModalMovimientoEdit(idMovimiento) {
                                        placeholder="dd/MM/yyyy">
                                         </div>
                             
-                            <div class="mb-4">
-                                <label for="idEtapaProcesal" class="block font-semibold">Etapa Procesal:</label>
-                                <select id="idEtapaProcesal" name="idEtapaProcesal" class="w-full p-2 border rounded">
-                                    <option value="" disabled>Seleccione</option>
-                                    ${etapasProcesales.map(etapa => `
-                                        <option value="${etapa.idEtapa}" ${etapa.idEtapa === data.idEtapaProcesal ? 'selected' : ''}>${etapa.nombre}</option>
-                                    `).join('')}
-                                </select>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label for="idContingencia" class="block font-semibold">Contingencia:</label>
-                                <select id="idContingencia" name="idContingencia" class="w-full p-2 border rounded">
-                                    <option value="" disabled>Seleccione</option>
-                                    ${tipoContigencias.map(contingencia => `
-                                        <option value="${contingencia.idTipoContigencia}" ${contingencia.idTipoContigencia === data.idContingencia ? 'selected' : ''}>${contingencia.nombre}</option>
-                                    `).join('')}
-                                </select>
-                            </div>
-                            
+                                
                             <!-- Botones para guardar o cerrar el formulario -->
                             <div class="flex justify-end mt-4">
                                 <button type="button" onclick="validaryEnviarFormMovimiento('movimientoUpdate')" class="bg-blue-600 text-white px-4 py-2 rounded-md mr-2">Guardar</button>
@@ -263,10 +207,8 @@ function abrirModalMovimientoEdit(idMovimiento) {
 
                     $('#modalMovimientoContent').html(content); // Inserta el formulario en el modal
                     $('#modalMovimiento').removeClass('hidden'); // Muestra el modal
-                }, error: function (xhr, status, error) {
-                    alert("Error al cargar las opciones.");
-                }
-            });
+
+
         }, error: function (xhr, status, error) {
             alert("Error al cargar el movimiento.");
         }
@@ -280,8 +222,6 @@ function submitEditForm(fechaValida) {
         nombre: $("#nombre").val(),
         // fecha:$("#fecha").val(),
         fecha:fechaValida,
-        idEtapaProcesal: $("#idEtapaProcesal").val(),
-        idContingencia: $("#idContingencia").val(),
     };
     console.log(movimientoData);
 
@@ -328,6 +268,9 @@ function abrirModalNuevoProcedimientoJudicial() {
     $.ajax({
         url: '/procesoJudiciales/get', type: 'GET', dataType: 'json', success: function (data) {
             const juzgadosList = data.juzgado;
+            const etapasProcesales = data.etapaProcesales;
+            const tipoContigencia = data.tipoContigencia;
+
             let content = `
              <form id="procesoJudicialesForm" style="max-width: 800px;" class="bg-white p-6 rounded-lg shadow-md space-y-6 w-full max-w-full mx-auto overflow-hidden">
         <h4 class="text-2xl font-bold mb-6">Nuevo Proceso Judicial</h4>
@@ -406,6 +349,21 @@ function abrirModalNuevoProcedimientoJudicial() {
                        class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
                 <div class="text-red-500 text-sm mt-1" id="abogadoError"></div>
             </div>
+            
+             <div class="mb-4">
+                <label for="idEtapaProcesal" class="block font-semibold">Etapa Procesal:</label>
+                <select id="idEtapaProcesal" name="idEtapaProcesal" class="w-full p-2 border rounded">
+                    <option value="" selected>Seleccione</option>
+                    ${etapasProcesales.map(etapa => `<option value="${etapa.idEtapa}">${etapa.nombre}</option>`).join('')}
+                </select>
+            </div>
+              <div class="mb-4">
+                <label for="idContingencia" class="block font-semibold">Contigencia:</label>
+                <select id="idContingencia" name="idContingencia" class="w-full p-2 border rounded">
+                    <option value="" selected>Seleccione</option>
+                    ${tipoContigencia.map(tipoContigencia => `<option value="${tipoContigencia.idTipoContigencia}">${tipoContigencia.nombre}</option>`).join('')}
+                </select>
+            </div>
         </div>
 
         <!-- Botones para guardar o cerrar el formulario -->
@@ -429,6 +387,8 @@ function abrirModalProcesoJudicial(idProcesoJudiciales) {
             $.ajax({
                 url: '/procesoJudiciales/get/options', type: 'GET', dataType: 'json', success: function (optionsData) {
                     const juzgadosList = optionsData.juzgadosList;
+                    const etapasProcesales = optionsData.etapaProcesals;
+                    const tipoContigencias = optionsData.tipoContigencias;
 
                     let content = `
     <form id="procesoJudicialesForm" style="max-width: 800px;" class="bg-white p-6 rounded-lg shadow-md space-y-6 w-full max-w-full mx-auto overflow-hidden">
@@ -508,6 +468,26 @@ function abrirModalProcesoJudicial(idProcesoJudiciales) {
                        class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full">
                 <div class="text-red-500 text-sm mt-1" id="abogadoError"></div>
             </div>
+            
+         <div class="mb-4">
+                    <label for="idEtapaProcesal" class="block font-semibold">Etapa Procesal:</label>
+                    <select id="idEtapaProcesal" name="idEtapaProcesal" class="w-full p-2 border rounded">
+                        <option value="" disabled>Seleccione</option>
+                        ${etapasProcesales.map(etapa => `
+                            <option value="${etapa.idEtapa}" ${etapa.idEtapa === data.idEtapaProcesal ? 'selected' : ''}>${etapa.nombre}</option>
+                        `).join('')}
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="idContingencia" class="block font-semibold">Contingencia:</label>
+                    <select id="idContingencia" name="idContingencia" class="w-full p-2 border rounded">
+                        <option value="" disabled>Seleccione</option>
+                        ${tipoContigencias.map(contingencia => `
+                            <option value="${contingencia.idTipoContigencia}" ${contingencia.idTipoContigencia === data.idContingencia ? 'selected' : ''}>${contingencia.nombre}</option>
+                        `).join('')}
+                    </select>
+                </div>
         </div>
 
         <!-- Botones para guardar o cerrar el formulario -->
@@ -543,7 +523,9 @@ function submitFormProcesoJudicial() {
         demandante: $('#demandante').val(),
         demandado: $('#demandado').val(),
         abogado: $('#abogado').val(),
-        idJuzgado: $('#idJuzgado').val()
+        idJuzgado: $('#idJuzgado').val(),
+        idEtapaProcesal: $("#idEtapaProcesal").val(),
+        idContingencia: $("#idContingencia").val()
     };
 
     const nombresCampos = {
@@ -554,7 +536,9 @@ function submitFormProcesoJudicial() {
         demandante: "Demandante",
         demandado: "Demandado",
         abogado: "Abogado",
-        idJuzgado: "Juzgado"
+        idJuzgado: "Juzgado",
+        idEtapaProcesal: "Etapa Procesal",
+        idContingencia: "Contingencia"
     };
 
 
@@ -616,7 +600,9 @@ function submitEditFormProcesoJudicial() {
         demandante: $('#demandante').val(),
         demandado: $('#demandado').val(),
         abogado: $('#abogado').val(),
-        idJuzgado: $('#idJuzgado').val()
+        idJuzgado: $('#idJuzgado').val(),
+        idEtapaProcesal: $("#idEtapaProcesal").val(),
+        idContingencia: $("#idContingencia").val()
     };
 
     for (const [campo, valor] of Object.entries(procesoJudicialData)) {

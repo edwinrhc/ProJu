@@ -2,8 +2,10 @@ package com.stfonavi.proju.model.service.implementation;
 
 import com.stfonavi.proju.dto.ProcesoJudicialesDTO;
 import com.stfonavi.proju.model.dao.IProcesoJudicialesDao;
+import com.stfonavi.proju.model.entity.EtapaProcesal;
 import com.stfonavi.proju.model.entity.Movimiento;
 import com.stfonavi.proju.model.entity.ProcesoJudiciales;
+import com.stfonavi.proju.model.entity.TipoContigencia;
 import com.stfonavi.proju.model.service.interfaces.IProcesoJudicialesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
@@ -52,6 +55,7 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
     @Override
     @Transactional
     public void guardarProcesoJudicial(ProcesoJudicialesDTO procesoJudicialesDTO) {
+
         ProcesoJudiciales procesoJudiciales = new ProcesoJudiciales();
         procesoJudiciales.setNumExpediente(procesoJudicialesDTO.getNumExpediente());
         procesoJudiciales.setMateria(procesoJudicialesDTO.getMateria());
@@ -61,6 +65,9 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
         procesoJudiciales.setDemandado(procesoJudicialesDTO.getDemandado());
         procesoJudiciales.setAbogado(procesoJudicialesDTO.getAbogado());
         procesoJudiciales.setIdJuzgado(procesoJudicialesDTO.getIdJuzgado());
+
+        procesoJudiciales.setIdEtapaProcesal(procesoJudicialesDTO.getIdEtapaProcesal());
+        procesoJudiciales.setIdContigencia(procesoJudicialesDTO.getIdContingencia());
 
         procesoJudicialesDao.save(procesoJudiciales);
     }
@@ -81,6 +88,9 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
         procesoJudiciales.setAbogado(procesoJudicialesDTO.getAbogado());
         procesoJudiciales.setIdJuzgado(procesoJudicialesDTO.getIdJuzgado());
 
+        procesoJudiciales.setIdEtapaProcesal(procesoJudicialesDTO.getIdEtapaProcesal());
+        procesoJudiciales.setIdContigencia(procesoJudicialesDTO.getIdContingencia());
+
         procesoJudicialesDao.save(procesoJudiciales);
 
 
@@ -98,3 +108,15 @@ public class ProcesoJudicialesServiceImpl implements IProcesoJudicialesService {
     }
 
 }
+
+/*
+        dto.setIdEtapaProcesal(movimiento.getIdEtapaProcesal());
+        dto.setIdContingencia(movimiento.getIdContigencia());
+
+// Obtener y establecer los nombres
+Optional<EtapaProcesal> etapa = etapaProcesalDao.findById(movimiento.getIdEtapaProcesal());
+            etapa.ifPresent(e -> dto.setNombreEtapaProcesal(e.getNombre()));
+
+
+Optional<TipoContigencia> contigencia = tipoContigenciaDao.findById(movimiento.getIdContigencia());
+            contigencia.ifPresent(c -> dto.setNombreContingencia(c.getNombre()));*/

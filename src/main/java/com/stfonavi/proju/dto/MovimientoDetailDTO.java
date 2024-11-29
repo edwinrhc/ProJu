@@ -17,10 +17,7 @@ public class MovimientoDetailDTO {
     private Long idMovimiento;
     private String nombre;
     private String fecha;
-    private Long idEtapaProcesal;
-    private String nombreEtapaProcesal;
-    private Long idContingencia;
-    private String nombreContingencia;
+
     private Date createdAt;
     private String createdBy;
     private Date updatedAt;

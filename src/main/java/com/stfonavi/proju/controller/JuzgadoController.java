@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,7 +62,7 @@ public class JuzgadoController {
     }
 
     @PostMapping("/crear")
-    public String guardar(@Valid @ModelAttribute("juzgado") Juzgado juzgado, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status){
+    public String guardar(@Valid @ModelAttribute("juzgado") Juzgado juzgado, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status, Authentication authentication){
         if(result.hasErrors()){
             model.addAttribute("juzgado", juzgado);
             model.addAttribute("titulo",Constantes.registroForm);
