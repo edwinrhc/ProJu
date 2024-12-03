@@ -5,16 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
+
 import java.io.Serializable;
-import java.time.LocalDateTime;
+
 import java.util.Date;
 
 @AllArgsConstructor
@@ -24,7 +21,6 @@ import java.util.Date;
 @Table(name="etapa_procesal")
 public class EtapaProcesal implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = -5442316589103608131L;
 
     @Id

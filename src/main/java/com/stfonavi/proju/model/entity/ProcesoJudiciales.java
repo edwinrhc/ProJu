@@ -9,12 +9,12 @@ import org.springframework.data.annotation.LastModifiedBy;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +23,7 @@ import java.util.List;
 @Table(name="proceso_judiciales")
 public class ProcesoJudiciales implements Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 4758150347274083148L;
 
     @Id

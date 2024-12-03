@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -24,7 +24,7 @@ import java.util.Date;
 public class TipoContigencia implements Serializable {
 
 
-    @Serial
+
     private static final long serialVersionUID = -3613359183470412925L;
 
     @Id

@@ -8,11 +8,10 @@ import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import java.io.Serial;
+
+
 import java.io.Serializable;
-import java.time.LocalDate;
+
 import java.util.Date;
 
 @AllArgsConstructor
@@ -22,7 +21,7 @@ import java.util.Date;
 @Table(name = "uap_movimiento")
 public class Movimiento implements Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = -3785586553443702528L;
 
     @Id

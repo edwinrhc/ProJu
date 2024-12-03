@@ -21,6 +21,7 @@ public class DatabaseWebSecurity {
 
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
         users.setUsersByUsernameQuery("SELECT USR_D_USUARIO, USR_D_CONTRASENA, USR_C_ESTADO_CUENTA FROM SOPORTE.SFSOP_USUARIO_FONAVI WHERE USR_D_USUARIO = ? ");
+
         users.setAuthoritiesByUsernameQuery("SELECT u.USR_D_USUARIO,r.ROL_D_DESCRIPCION FROM SOPORTE.SFSOP_USUARIO_ROL ur "
                 + "INNER JOIN SOPORTE.SFSOP_USUARIO_FONAVI u ON u.USR_C_ID= ur.USR_C_ID "
                 + "INNER JOIN SOPORTE.SFSOP_ROL r ON r.ROL_C_ID = ur.ROL_C_ID "
@@ -39,23 +40,19 @@ public class DatabaseWebSecurity {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/js/**", "/public/**", "/css/**","DataTables/**").permitAll()
-//                .antMatchers("/rol/**", "/usuarios/**", "/equipos/**", "/rolesAsignados/**", "/rol/**"
-//                        ,"/solicitudes/listar","/solicitudes/asignados").hasAnyAuthority("ADMINISTRADOR")
-//                .antMatchers("/", "/solicitudes/verArchivoAdjunto/**").hasAnyAuthority("USUARIO", "ADMINISTRADOR", "ASIGNADO")
-//                .antMatchers("/solicitudes/crear", "/solicitudes/editar/**","/solicitudes/detalle/**").hasAnyAuthority("USUARIO","ADMINISTRADOR","ASIGNADO")
-//                .antMatchers("/solicitudes/listarAsignados","/tipoApp/**,/controlrequerimiento/**").hasAnyAuthority("ASIGNADO","ADMINISTRADOR")
                 .antMatchers("/error","/error/**").permitAll() // Permitir acceso a las páginas de error
                 .anyRequest().authenticated() // Restringe todas las demás rutas a usuarios autenticados
                 .and()
                 // Habilitar autenticación básica HTTP
-                .httpBasic()
-                .and()
-                .formLogin().loginPage("/login")
-                .permitAll()
-                .and()
-                .logout().permitAll()
-                .and()
-                .exceptionHandling().accessDeniedPage("/error_403");
+//                .httpBasic()
+//                .and()
+//                .formLogin().loginPage("/login")
+//                .permitAll()
+//                .and()
+//                .logout().permitAll()
+//                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/error/403");
 
         return http.build();
     }

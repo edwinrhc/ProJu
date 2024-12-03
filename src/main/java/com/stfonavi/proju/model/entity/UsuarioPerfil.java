@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,7 +20,7 @@ import java.util.Date;
 public class UsuarioPerfil implements Serializable {
 
 
-    @Serial
+
     private static final long serialVersionUID = 7331292432758149239L;
 
     @Id

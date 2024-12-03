@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name="SFSOP_AREA")
 public class Area implements Serializable {
-    @Serial
+
     private static final long serialVersionUID = 3163470740130853817L;
 
     @Id

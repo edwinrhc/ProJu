@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -24,7 +24,7 @@ import java.util.Date;
 public class Juzgado implements Serializable {
 
 
-    @Serial
+
     private static final long serialVersionUID = 2993057363231848752L;
 
     @Id

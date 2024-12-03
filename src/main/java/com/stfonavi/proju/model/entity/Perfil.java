@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,7 +18,7 @@ import java.util.Date;
 @Table(name = "SFSOP_PERFIL")
 public class Perfil implements Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 8260151210085662720L;
 
     @Id

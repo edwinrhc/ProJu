@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,7 +19,7 @@ import java.util.Date;
 public class UsuarioRol  implements Serializable {
 
 
-    @Serial
+
     private static final long serialVersionUID = 2143897781053641032L;
 
     @Id
