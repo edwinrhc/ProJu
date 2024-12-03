@@ -15,12 +15,12 @@
         <!-- Imagen del logo a la izquierda -->
         <div class="flex items-center">
             <img th:src="@{/img/stLogo.png}" alt="Logo" class="mr-3"> <!-- Cambia "logo.png" por la ruta a tu logo -->
-            <a th:href="@{/}"> <span class="text-black text-xl font-semibold">UNIDAD DE ASUNTOS PROCESALES</span></a>
+            <a th:href="@{/home}"> <span class="text-black text-xl font-semibold">UNIDAD DE ASUNTOS PROCESALES</span></a>
         </div>
 
         <!-- Enlaces de navegación -->
         <div class="hidden md:flex space-x-6">
-            <a th:href="@{/}" class="text-black hover:text-gray-300">Inicio</a>
+            <a th:href="@{/home}" class="text-black hover:text-gray-300">Inicio</a>
             <a th:href="@{/juzgado/view}" class="text-black hover:text-gray-300">Juzgado</a>
             <a th:href="@{/etapaProcesal/view}" class="text-black hover:text-gray-300">Estapa Procesal</a>
             <a th:href="@{/tipoContigencia/view}" class="text-black hover:text-gray-300">Tipo de Contigencia</a>

@@ -20,7 +20,7 @@ public class HomeController {
     @Autowired
     private IUsuarioService usuarioService;
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home(Model model, Principal principal, Authentication authentication){
         String usuarioLogeado = ((UserDetails) authentication.getPrincipal()).getUsername();
         String username = principal.getName();
