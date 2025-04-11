@@ -7,7 +7,6 @@
 
 <div class="flex-grow container mx-auto p-6">
 
-
     <!-- Ajustar el formulario a 3/4 de la pantalla -->
     <form th:action="@{/etapaProcesal/crear}" th:object="${etapaProcesal}" method="post" class="bg-white p-6 rounded-lg shadow-md space-y-6 w-1/2 mx-auto">
 
@@ -21,7 +20,6 @@
                    th:field="*{nombre}"
                    class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             <div class="text-red-500 text-sm mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
-
         </div>
 
         <!-- Campo de Estado -->

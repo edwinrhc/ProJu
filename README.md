@@ -1,8 +1,7 @@
 # ProJU
 
 ## Descripción
-
-
+SISTEMA DE CONTROL Y REGISTROS PARA LA GESTIÓN DE PROCESOS JUDICIALES
 ## Tecnologías
 
 - **Backend:**
